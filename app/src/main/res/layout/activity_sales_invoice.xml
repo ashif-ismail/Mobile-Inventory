@@ -65,21 +65,30 @@
             </LinearLayout>
         </android.support.v7.widget.CardView>
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/sales_invoice_list"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:scrollbars="none" />
+            android:layout_height="match_parent">
 
-        <android.support.design.widget.FloatingActionButton xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right|bottom"
-            android:layout_marginRight="10dp"
-            app:borderWidth="0dp"
-            app:rippleColor="#ffffff"
-            app:srcCompat="@drawable/ic_add_black_24dp" />
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/sales_invoice_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="none" />
+
+            <android.support.design.widget.FloatingActionButton xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/fab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right|bottom"
+                android:layout_marginRight="10dp"
+                app:borderWidth="0dp"
+                android:layout_marginBottom="10dp"
+                app:rippleColor="#ffffff"
+                app:srcCompat="@drawable/ic_add_black_24dp" />
+
+        </FrameLayout>
+
+
 
     </LinearLayout>
 </layout>

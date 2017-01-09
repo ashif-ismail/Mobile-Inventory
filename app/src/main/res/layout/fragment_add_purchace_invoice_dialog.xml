@@ -1,27 +1,42 @@
-<layout>
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:context="me.ashif.mobileinventory.fragment.AddPurchaceInvoiceDialog">
+        >
 
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/itemnameWrapper"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="5dp">
+        <!--<android.support.design.widget.TextInputLayout-->
+            <!--android:id="@+id/itemnameWrapper"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginLeft="10dp"-->
+            <!--android:layout_marginRight="10dp"-->
+            <!--android:layout_marginTop="5dp">-->
 
-            <EditText
-                android:id="@+id/text_itemname"
+            <!--<EditText-->
+                <!--android:id="@+id/text_itemname"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:hint="item itemName"-->
+                <!--android:inputType="text" />-->
+
+            <Spinner
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="item name"
-                android:inputType="text" />
+                android:spinnerMode="dropdown"
+                android:id="@+id/spinnerItemName"
+                >
 
-        </android.support.design.widget.TextInputLayout>
+            </Spinner>
+
+        <!--</android.support.design.widget.TextInputLayout>-->
+
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:spinnerMode="dropdown"
+            android:id="@+id/spinnerSupplierName">
+        </Spinner>
 
         <android.support.design.widget.TextInputLayout
             android:id="@+id/itemcommisionWrapper"
@@ -35,10 +50,12 @@
                 android:id="@+id/text_itemcommision"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="item commision"
+                android:hint="commission"
                 android:inputType="number" />
 
         </android.support.design.widget.TextInputLayout>
+
+
 
         <android.support.design.widget.TextInputLayout
             android:id="@+id/itempriceWrapper"
@@ -87,6 +104,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="total"
+                android:enabled="false"
                 android:inputType="number" />
 
         </android.support.design.widget.TextInputLayout>

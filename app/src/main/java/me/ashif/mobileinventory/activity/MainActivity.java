@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mBinding.cardViewFirst.setOnClickListener(this);
         mBinding.cardViewSecond.setOnClickListener(this);
         mBinding.cardViewThird.setOnClickListener(this);
+        mBinding.cardViewSales.setOnClickListener(this);
     }
 
 
@@ -33,8 +34,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.card_view_first: {
-                Intent editEntry = new Intent(MainActivity.this,EditEntryActivity.class);
-                startActivity(editEntry);
+                Intent purchaseEntry = new Intent(MainActivity.this,EditPurchaseEntryActivity.class);
+                startActivity(purchaseEntry);
             }
             break;
             case R.id.card_view_second: {
@@ -45,6 +46,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.card_view_third: {
                 Intent salesInvoice = new Intent(MainActivity.this, SalesInvoiceActivity.class);
                 startActivity(salesInvoice);
+            }
+            break;
+            case R.id.card_view_sales:{
+                Intent salesEntry = new Intent(MainActivity.this,EditSalesEntryActivity.class);
+                startActivity(salesEntry);
             }
         }
     }

@@ -15,7 +15,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/b1" />
+                android:src="@drawable/banner" />
 
             <ScrollView
                 android:layout_width="match_parent"
@@ -55,7 +55,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_toRightOf="@+id/img_thumb_first"
                                 android:paddingLeft="12dp"
-                                android:text="Enter Card Details"
+                                android:text="Enter Purchase Details"
                                 android:textColor="@color/black"
                                 android:textSize="15sp" />
 
@@ -65,7 +65,7 @@
                                 android:layout_below="@+id/text_card_first"
                                 android:layout_toRightOf="@+id/img_thumb_first"
                                 android:paddingLeft="10dp"
-                                android:text="Enter the details of Card items" />
+                                android:text="Enter the details of Card purchases" />
 
                             <ImageView
                                 android:id="@+id/img_arrow_first"
@@ -135,7 +135,7 @@
                     </android.support.v7.widget.CardView>
 
                     <android.support.v7.widget.CardView
-                        android:id="@+id/card_view_third"
+                        android:id="@+id/card_view_sales"
                         android:layout_width="match_parent"
                         android:layout_height="90dp"
                         android:layout_marginLeft="10dp"
@@ -150,12 +150,70 @@
                             android:layout_gravity="center_vertical">
 
                             <ImageView
+                                android:id="@+id/img_thumb_sales"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentLeft="true"
+                                android:layout_marginLeft="10dp"
+                                android:backgroundTint="@color/black"
+                                android:src="@drawable/ic_business_card" />
+
+                            <TextView
+                                android:id="@+id/text_card_sales"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_toRightOf="@+id/img_thumb_sales"
+                                android:paddingLeft="12dp"
+                                android:text="Enter Sales Details"
+                                android:textColor="@color/black"
+                                android:textSize="15sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/text_card_sales"
+                                android:layout_toRightOf="@+id/img_thumb_sales"
+                                android:paddingLeft="10dp"
+                                android:text="Enter the details of Card sales" />
+
+                            <ImageView
+                                android:id="@+id/img_arrow_sales"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerInParent="true"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="10dp"
+                                android:src="@drawable/dashboard_right_arrow" />
+                        </RelativeLayout>
+
+                    </android.support.v7.widget.CardView>
+
+                    <android.support.v7.widget.CardView
+                        android:id="@+id/card_view_third"
+                        android:layout_width="match_parent"
+                        android:layout_height="90dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="5dp"
+                        android:clickable="true"
+                        android:foreground="?android:attr/selectableItemBackground">
+
+                        <RelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical">
+
+                            <ImageView
                                 android:id="@+id/img_thumb_third"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentLeft="true"
                                 android:layout_marginLeft="10dp"
-                                android:src="@drawable/ic_all_events" />
+                                android:src="@drawable/ic_attendee_list"
+                                android:backgroundTint="@color/black"
+                                />
 
                             <TextView
                                 android:id="@+id/text_card_third"

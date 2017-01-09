@@ -22,8 +22,9 @@
             android:name=".activity.PurchaseInvoiceActivity"
             android:parentActivityName=".activity.MainActivity" />
         <activity
-            android:name=".activity.EditEntryActivity"
-            android:parentActivityName=".activity.MainActivity"></activity>
+            android:name=".activity.EditPurchaseEntryActivity"
+            android:parentActivityName=".activity.MainActivity" />
+        <activity android:name=".activity.EditSalesEntryActivity"></activity>
     </application>
 
 </manifest>
