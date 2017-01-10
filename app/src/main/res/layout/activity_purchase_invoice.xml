@@ -30,22 +30,28 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/suppliernameWrapper"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="5dp">
-
-                    <EditText
+                    <TextView
                         android:id="@+id/text_suppliername"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="supplier name"
-                        android:inputType="text" />
+                        android:text="supplier name"
+                        android:layout_marginLeft="13dp"
+                        android:textColor="@color/colorAccent"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="5dp"
+                        />
 
-                </android.support.design.widget.TextInputLayout>
+                    <Spinner
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/spinnerSupplierName"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="5dp"
+                        android:spinnerMode="dialog"
+                        ></Spinner>
+
+
 
                 <android.support.design.widget.TextInputLayout
                     android:id="@+id/supplierCodeWrapper"

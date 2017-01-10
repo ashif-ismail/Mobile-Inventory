@@ -3,4 +3,8 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="loading">Loading,please wait a moment..</string>
+    <string name="saved">data saved successfully</string>
+    <string name="failed">something went wrong</string>
+    <string name="fieldsmissing">fields required are missing</string>
 </resources>

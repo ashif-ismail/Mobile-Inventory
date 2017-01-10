@@ -13,29 +13,48 @@
             <!--android:layout_marginRight="10dp"-->
             <!--android:layout_marginTop="5dp">-->
 
-            <!--<EditText-->
-                <!--android:id="@+id/text_itemname"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:hint="item itemName"-->
-                <!--android:inputType="text" />-->
+        <TextView
+            android:id="@+id/text_suppliername"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="supplier name"
+            android:layout_marginLeft="13dp"
+            android:textColor="@color/colorAccent"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="5dp"
+            />
 
             <Spinner
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:spinnerMode="dropdown"
-                android:id="@+id/spinnerItemName"
+                android:spinnerMode="dialog"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:id="@+id/spinnerSupplierName"
                 >
 
             </Spinner>
 
         <!--</android.support.design.widget.TextInputLayout>-->
-
+        <TextView
+            android:id="@+id/text_itemname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="item name"
+            android:layout_marginLeft="13dp"
+            android:textColor="@color/colorAccent"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="5dp"
+            />
         <Spinner
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:spinnerMode="dropdown"
-            android:id="@+id/spinnerSupplierName">
+            android:spinnerMode="dialog"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:id="@+id/spinnerItemName">
         </Spinner>
 
         <android.support.design.widget.TextInputLayout
@@ -51,7 +70,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="commission"
-                android:inputType="number" />
+                android:inputType="numberDecimal" />
 
         </android.support.design.widget.TextInputLayout>
 

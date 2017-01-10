@@ -15,20 +15,12 @@ public class PurchaseInvoiceModel {
     private int quantity;
     private float total;
 
-    public float getSupplierCommission() {
-        return supplierCommission;
-    }
-
-    public void setSupplierCommission(float supplierCommission) {
-        this.supplierCommission = supplierCommission;
-    }
-
-    public String getName() {
+    public String getItemName() {
         return itemName;
     }
 
-    public void setName(String name) {
-        this.itemName = name;
+    public void setItemName(String itemName) {
+        this.itemName = itemName;
     }
 
     public int getPrice() {
@@ -47,20 +39,12 @@ public class PurchaseInvoiceModel {
         this.quantity = quantity;
     }
 
-    public float getTotal() {
-        return total;
+    public float getSupplierCommission() {
+        return supplierCommission;
     }
 
-    public void setTotal(float total) {
-        this.total = total;
-    }
-
-    public String getItemName() {
-        return itemName;
-    }
-
-    public void setItemName(String itemName) {
-        this.itemName = itemName;
+    public void setSupplierCommission(float supplierCommission) {
+        this.supplierCommission = supplierCommission;
     }
 
     public String getSupplierName() {
@@ -71,5 +55,11 @@ public class PurchaseInvoiceModel {
         this.supplierName = supplierName;
     }
 
+    public float getTotal() {
+        return total;
+    }
 
+    public void setTotal(float total) {
+        this.total = total;
+    }
 }
