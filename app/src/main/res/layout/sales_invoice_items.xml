@@ -2,7 +2,7 @@
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
 
@@ -45,6 +45,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="10dp"
+            android:layout_marginBottom="5dp"
             android:clickable="true"
             android:foreground="?android:attr/selectableItemBackground">
 
@@ -66,7 +67,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:enabled="false"
-                        android:hint="serial no"
+                        android:hint="customer ID"
+                        android:textColor="@color/black"
                         android:inputType="text" />
 
                 </android.support.design.widget.TextInputLayout>
@@ -85,6 +87,7 @@
                         android:layout_height="wrap_content"
                         android:enabled="false"
                         android:hint="item name"
+                        android:textColor="@color/black"
                         android:inputType="text" />
 
                 </android.support.design.widget.TextInputLayout>
@@ -102,6 +105,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:enabled="false"
+                        android:textColor="@color/black"
                         android:hint="commission"
                         android:inputType="text" />
 
@@ -119,6 +123,7 @@
                         android:id="@+id/text_unitprice"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:textColor="@color/black"
                         android:enabled="false"
                         android:hint="unit price(in riyal)"
                         android:inputType="number" />
@@ -137,6 +142,7 @@
                         android:id="@+id/text_salesamount"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:textColor="@color/black"
                         android:enabled="false"
                         android:hint="sales amount"
                         android:inputType="text" />

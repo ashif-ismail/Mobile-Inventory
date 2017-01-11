@@ -4,14 +4,11 @@ package me.ashif.mobileinventory.fragment;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.annotation.StringDef;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
@@ -21,7 +18,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Toast;
 
 import org.apache.commons.io.IOUtils;
 import org.json.JSONArray;
@@ -31,14 +27,12 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Collection;
 
 import me.ashif.mobileinventory.R;
-import me.ashif.mobileinventory.activity.PurchaseInvoiceActivity;
 import me.ashif.mobileinventory.api.ApiInterface;
 import me.ashif.mobileinventory.api.RetrofitClient;
 import me.ashif.mobileinventory.databinding.FragmentAddPurchaceInvoiceDialogBinding;
-import me.ashif.mobileinventory.model.PurchaseInvoiceModel;
+import me.ashif.mobileinventory.model.PurchaseModel;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -62,7 +56,7 @@ public class AddPurchaceInvoiceDialog extends DialogFragment implements TextWatc
     public static AddPurchaceInvoiceDialog newInstance(ArrayList<String> listdata) {
         AddPurchaceInvoiceDialog purchaceInvoiceDialog = new AddPurchaceInvoiceDialog();
         Bundle args = new Bundle();
-        args.putSerializable("supplierList",listdata);
+        args.putSerializable("supplierList", listdata);
         purchaceInvoiceDialog.setArguments(args);
         return purchaceInvoiceDialog;
     }
@@ -87,7 +81,7 @@ public class AddPurchaceInvoiceDialog extends DialogFragment implements TextWatc
                 String json;
                 InputStream inputStream = response.body().byteStream();
                 try {
-                    json = IOUtils.toString(inputStream,"UTF-8");
+                    json = IOUtils.toString(inputStream, "UTF-8");
                     j = new JSONObject(json);
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -103,7 +97,7 @@ public class AddPurchaceInvoiceDialog extends DialogFragment implements TextWatc
                     e.printStackTrace();
                 }
                 if (jArray != null) {
-                    for (int i=0;i<jArray.length();i++){
+                    for (int i = 0; i < jArray.length(); i++) {
                         try {
                             listdata.add(jArray.getString(i));
                         } catch (JSONException e) {
@@ -112,7 +106,7 @@ public class AddPurchaceInvoiceDialog extends DialogFragment implements TextWatc
                     }
                 }
 
-                mBinding.spinnerItemName.setAdapter(new ArrayAdapter<>(getContext(), R.layout.spinner,listdata));
+                mBinding.spinnerItemName.setAdapter(new ArrayAdapter<>(getContext(), R.layout.spinner, listdata));
             }
 
             @Override
@@ -124,12 +118,15 @@ public class AddPurchaceInvoiceDialog extends DialogFragment implements TextWatc
 
     private void setObjects() {
         pDialog = new ProgressDialog(getContext());
+        pDialog.setCancelable(false);
     }
 
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
+        pDialog.setMessage(getString(R.string.loading));
+        pDialog.show();
         AlertDialog.Builder alertDialogBuilder;
         alertDialogBuilder = new AlertDialog.Builder(getActivity());
 
@@ -137,42 +134,30 @@ public class AddPurchaceInvoiceDialog extends DialogFragment implements TextWatc
         alertDialogBuilder.setView(mBinding.getRoot());
 
         mSupplierList = (ArrayList<String>) getArguments().getSerializable("supplierList");
-        Log.d("asasa", "onCreateDialog: "+mSupplierList.size());
-        mBinding.spinnerSupplierName.setAdapter(new ArrayAdapter<>(getContext(), R.layout.spinner,mSupplierList));
+        mBinding.spinnerSupplierName.setAdapter(new ArrayAdapter<>(getContext(), R.layout.spinner, mSupplierList));
+        pDialog.dismiss();
         getItemsForSupplier(mSupplierList.get(0));
         mBinding.textItemprice.addTextChangedListener(this);
         mBinding.textItemunit.addTextChangedListener(this);
         mBinding.spinnerSupplierName.setOnItemSelectedListener(this);
+        mBinding.spinnerItemName.setOnItemSelectedListener(this);
 
-        final PurchaseInvoiceModel model = new PurchaseInvoiceModel();
+        final PurchaseModel model = new PurchaseModel();
 
-        String spinnerItemName = "item name";
-        String spinnerSupplierName = "supplier name";
+//        if (mBinding.spinnerItemName != null && mBinding.spinnerItemName.getSelectedItem()!= null && mBinding.spinnerSupplierName!= null && mBinding.spinnerSupplierName.getSelectedItem() != null){
+//            String spinnerItemName = mBinding.spinnerItemName.getSelectedItem().toString();
+//            String spinnerSupplierName = mBinding.spinnerSupplierName.getSelectedItem().toString();
+//        }
 
-        if (mBinding.spinnerItemName != null && mBinding.spinnerItemName.getSelectedItem()!= null && mBinding.spinnerSupplierName!= null && mBinding.spinnerSupplierName.getSelectedItem() != null){
-            spinnerItemName = mBinding.spinnerItemName.getSelectedItem().toString();
-            spinnerSupplierName = mBinding.spinnerSupplierName.getSelectedItem().toString();
-        }
-
-        final String finalSpinnerItemName = spinnerItemName;
-        final String finalSpinnerSupplierName = spinnerSupplierName;
-        alertDialogBuilder.setTitle("Add Purchase Details")
-                .setPositiveButton("DONE", new DialogInterface.OnClickListener() {
+        alertDialogBuilder.setTitle("Update Purchase Invoice")
+                .setPositiveButton("Update", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if (isValidEntry()) {
                             pDialog.setMessage(getString(R.string.loading));
                             pDialog.show();
-                            model.setItemName(finalSpinnerItemName);
-                            model.setSupplierName(finalSpinnerSupplierName);
-                            model.setPrice(Integer.parseInt(mBinding.textItemprice.getText().toString()));
-                            model.setQuantity(Integer.parseInt(mBinding.textItemunit.getText().toString()));
-                            model.setSupplierCommission(Float.parseFloat(mBinding.textItemcommision.getText().toString()));
-                            model.setTotal(Float.parseFloat(mBinding.textSales.getText().toString()));
-                            pDialog.setMessage(getString(R.string.loading));
-                            postPurchaseInvoice(model);
-                        }
-                        else {
+                            updatePurchase();
+                        } else {
                             //display failed
                         }
                     }
@@ -195,14 +180,18 @@ public class AddPurchaceInvoiceDialog extends DialogFragment implements TextWatc
         return true;
     }
 
-    private void postPurchaseInvoice(PurchaseInvoiceModel model) {
-
-        Call<ResponseBody> postInvoiceCall = mApiInterface.setPurchaseInvoice(model.getItemName(),model.getSupplierName(),model.getSupplierCommission(),model.getQuantity(),model.getPrice(),model.getTotal());
-        postInvoiceCall.enqueue(new Callback<ResponseBody>() {
+    private void updatePurchase() {
+        Call<ResponseBody> updatePurchaseCall = mApiInterface.updatePurchase(Integer.valueOf(mBinding.textSuppplierid.getText().toString()),
+                mBinding.spinnerItemName.getSelectedItem().toString()
+                , mBinding.spinnerSupplierName.getSelectedItem().toString(), Float.parseFloat(mBinding.textItemcommision.getText().toString()),
+                Integer.parseInt(mBinding.textItemunit.getText().toString()), Integer.parseInt(mBinding.textItemprice.getText().toString()),
+                Float.parseFloat(mBinding.textSales.getText().toString()));
+        updatePurchaseCall.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 pDialog.dismiss();
 //                Toast.makeText(mContext ,getString(R.string.saved),Toast.LENGTH_SHORT).show();
+                Log.d("asas", "onResponse: " + response.message());
 
             }
 
@@ -210,6 +199,7 @@ public class AddPurchaceInvoiceDialog extends DialogFragment implements TextWatc
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 pDialog.dismiss();
 //                Toast.makeText(getContext(),getString(R.string.failed),Toast.LENGTH_SHORT).show();
+                Log.d("asas", "onResponse: " + t.getMessage());
             }
         });
     }
@@ -236,7 +226,40 @@ public class AddPurchaceInvoiceDialog extends DialogFragment implements TextWatc
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-        getItemsForSupplier(adapterView.getSelectedItem().toString());
+
+        switch (adapterView.getId()) {
+            case R.id.spinnerSupplierName:
+                getItemsForSupplier(mBinding.spinnerSupplierName.getSelectedItem().toString());
+                break;
+            case R.id.spinnerItemName:
+                getDetails(mBinding.spinnerSupplierName.getSelectedItem().toString(), mBinding.spinnerItemName.getSelectedItem().toString());
+                break;
+        }
+    }
+
+    private void getDetails(String supplier, String item) {
+        pDialog.setMessage(getString(R.string.loading));
+        pDialog.show();
+        Call<ArrayList<PurchaseModel>> call = mApiInterface.getPurchaseDetails(supplier, item);
+        call.enqueue(new Callback<ArrayList<PurchaseModel>>() {
+            @Override
+            public void onResponse(Call<ArrayList<PurchaseModel>> call, Response<ArrayList<PurchaseModel>> response) {
+                pDialog.dismiss();
+                ArrayList<PurchaseModel> result = new ArrayList<>();
+                result.addAll(response.body());
+                mBinding.textItemcommision.setText(String.valueOf(result.get(0).getCommission()));
+                mBinding.textItemprice.setText(String.valueOf(result.get(0).getPrice()));
+                mBinding.textItemunit.setText(String.valueOf(result.get(0).getQuantity()));
+                mBinding.textSales.setText(String.valueOf(result.get(0).getTotal()));
+                mBinding.textSuppplierid.setText(String.valueOf(result.get(0).getId()));
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<PurchaseModel>> call, Throwable t) {
+                pDialog.dismiss();
+            }
+        });
+
     }
 
     @Override

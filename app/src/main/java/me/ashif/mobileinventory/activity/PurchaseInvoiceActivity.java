@@ -5,6 +5,8 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -18,12 +20,17 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import me.ashif.mobileinventory.R;
+import me.ashif.mobileinventory.adapter.PurchaseInvoiceAdapter;
 import me.ashif.mobileinventory.api.ApiInterface;
 import me.ashif.mobileinventory.api.RetrofitClient;
 import me.ashif.mobileinventory.databinding.ActivityPurchaseInvoiceBinding;
 import me.ashif.mobileinventory.fragment.AddPurchaceInvoiceDialog;
+import me.ashif.mobileinventory.model.PurchaseModel;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -41,14 +48,15 @@ public class PurchaseInvoiceActivity extends AppCompatActivity implements View.O
         super.onCreate(savedInstanceState);
         mBinding = DataBindingUtil.setContentView(this,R.layout.activity_purchase_invoice);
 
-        mApiInterface = RetrofitClient.getClient().create(ApiInterface.class);
         setListeners();
         setObjects();
         getSuppliersList();
     }
 
     private void setObjects() {
+        mApiInterface = RetrofitClient.getClient().create(ApiInterface.class);
         pDialog = new ProgressDialog(this);
+        pDialog.setCancelable(false);
     }
 
     private void getSuppliersList() {
@@ -88,13 +96,17 @@ public class PurchaseInvoiceActivity extends AppCompatActivity implements View.O
                         }
                     }
                 }
-
+//                Set<String> hs = new HashSet<>();
+//                hs.addAll(listdata);
+//                listdata.clear();
+//                listdata.addAll(hs);
                 mBinding.spinnerSupplierName.setAdapter(new ArrayAdapter<>(getApplicationContext(), R.layout.spinner,listdata));
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 pDialog.dismiss();
+                Toast.makeText(getApplicationContext(),getString(R.string.failed),Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -118,7 +130,35 @@ public class PurchaseInvoiceActivity extends AppCompatActivity implements View.O
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+        switch (adapterView.getId()){
+            case R.id.spinnerSupplierName:
+                getDetails(mBinding.spinnerSupplierName.getSelectedItem().toString());
+                break;
 
+        }
+    }
+
+    private void getDetails(String supplierName) {
+
+        pDialog.setMessage(getString(R.string.loading));
+        pDialog.show();
+        Call<ArrayList<PurchaseModel>> call = mApiInterface.getAllPurchases(supplierName);
+        call.enqueue(new Callback<ArrayList<PurchaseModel>>() {
+            @Override
+            public void onResponse(Call<ArrayList<PurchaseModel>> call, Response<ArrayList<PurchaseModel>> response) {
+                pDialog.dismiss();
+                ArrayList<PurchaseModel> result = new ArrayList<>();
+                result.addAll(response.body());
+
+                mBinding.purchaseInvoiceList.setAdapter(new PurchaseInvoiceAdapter(getApplicationContext(), result));
+                mBinding.purchaseInvoiceList.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<PurchaseModel>> call, Throwable t) {
+                pDialog.dismiss();
+            }
+        });
     }
 
     @Override

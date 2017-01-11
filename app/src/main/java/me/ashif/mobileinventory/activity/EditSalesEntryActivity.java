@@ -72,7 +72,7 @@ public class EditSalesEntryActivity extends AppCompatActivity implements TextWat
                 if (isValidEntry()) {
                     showProgress(getString(R.string.loading));
                     SalesModel model = new SalesModel();
-                    model.setName(mBinding.textItemname.getText().toString());
+                    model.setItemName(mBinding.textItemname.getText().toString());
                     model.setCustomerName(mBinding.textItemeuppliername.getText().toString());
                     model.setCommission(Float.parseFloat(mBinding.textSuppliercomm.getText().toString()));
                     model.setPrice(Integer.parseInt(mBinding.textUnitprice.getText().toString()));
@@ -96,7 +96,7 @@ public class EditSalesEntryActivity extends AppCompatActivity implements TextWat
     }
 
     private void postSalesDetails(SalesModel model) {
-        Call<ResponseBody> saveCall = mApiInterface.setSales(model.getName(), model.getCustomerName(), model.getCommission(), model.getQuantity(), model.getPrice(), model.getTotal());
+        Call<ResponseBody> saveCall = mApiInterface.setSales(model.getItemName(), model.getCustomerName(), model.getCommission(), model.getQuantity(), model.getPrice(), model.getTotal());
         saveCall.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {

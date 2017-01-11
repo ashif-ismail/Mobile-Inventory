@@ -4,60 +4,105 @@ package me.ashif.mobileinventory.model;
  * Created by asif on 7/1/17.
  */
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonPropertyOrder({
+        "id",
+        "itemName",
+        "quantity",
+        "price",
+        "total",
+        "supplierName",
+        "commission"
+})
 public class PurchaseModel {
 
+    @JsonProperty("id")
+    private Integer id;
+    @JsonProperty("itemName")
     private String itemName;
-    private int quantity;
-    private int price;
+    @JsonProperty("quantity")
+    private Integer quantity;
+    @JsonProperty("price")
+    private Integer price;
+    @JsonProperty("total")
     private float total;
+    @JsonProperty("supplierName")
     private String supplierName;
+    @JsonProperty("commission")
     private float commission;
 
+    @JsonProperty("id")
+    public Integer getId() {
+        return id;
+    }
+
+    @JsonProperty("id")
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    @JsonProperty("itemName")
     public String getItemName() {
         return itemName;
     }
 
+    @JsonProperty("itemName")
     public void setItemName(String itemName) {
         this.itemName = itemName;
     }
 
-    public int getQuantity() {
+    @JsonProperty("quantity")
+    public Integer getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
+    @JsonProperty("quantity")
+    public void setQuantity(Integer quantity) {
         this.quantity = quantity;
     }
 
-    public int getPrice() {
+    @JsonProperty("price")
+    public Integer getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    @JsonProperty("price")
+    public void setPrice(Integer price) {
         this.price = price;
     }
 
+    @JsonProperty("total")
     public float getTotal() {
         return total;
     }
 
+    @JsonProperty("total")
     public void setTotal(float total) {
         this.total = total;
     }
 
-    public float getCommission() {
-        return commission;
-    }
-
-    public void setCommission(float commission) {
-        this.commission = commission;
-    }
-
+    @JsonProperty("supplierName")
     public String getSupplierName() {
         return supplierName;
     }
 
+    @JsonProperty("supplierName")
     public void setSupplierName(String supplierName) {
         this.supplierName = supplierName;
     }
+
+    @JsonProperty("commission")
+    public float getCommission() {
+        return commission;
+    }
+
+    @JsonProperty("commission")
+    public void setCommission(float commission) {
+        this.commission = commission;
+    }
+
 }

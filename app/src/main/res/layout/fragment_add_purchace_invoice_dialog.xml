@@ -1,61 +1,77 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        >
+        android:orientation="vertical">
 
         <!--<android.support.design.widget.TextInputLayout-->
-            <!--android:id="@+id/itemnameWrapper"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginLeft="10dp"-->
-            <!--android:layout_marginRight="10dp"-->
-            <!--android:layout_marginTop="5dp">-->
+        <!--android:id="@+id/itemnameWrapper"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginLeft="10dp"-->
+        <!--android:layout_marginRight="10dp"-->
+        <!--android:layout_marginTop="5dp">-->
+
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/supplieridWrapper"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="5dp">
+
+            <EditText
+                android:id="@+id/text_suppplierid"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:hint="supplier ID"
+                android:inputType="number" />
+
+        </android.support.design.widget.TextInputLayout>
 
         <TextView
             android:id="@+id/text_suppliername"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="supplier name"
             android:layout_marginLeft="13dp"
-            android:textColor="@color/colorAccent"
             android:layout_marginRight="10dp"
             android:layout_marginTop="5dp"
-            />
+            android:text="supplier name"
+            android:textColor="@color/colorAccent" />
 
-            <Spinner
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:spinnerMode="dialog"
-                android:layout_marginTop="5dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:id="@+id/spinnerSupplierName"
-                >
+        <Spinner
+            android:id="@+id/spinnerSupplierName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="5dp"
+            android:spinnerMode="dialog">
 
-            </Spinner>
+        </Spinner>
 
         <!--</android.support.design.widget.TextInputLayout>-->
         <TextView
             android:id="@+id/text_itemname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="item name"
             android:layout_marginLeft="13dp"
-            android:textColor="@color/colorAccent"
             android:layout_marginRight="10dp"
             android:layout_marginTop="5dp"
-            />
+            android:text="item name"
+            android:textColor="@color/colorAccent" />
+
         <Spinner
+            android:id="@+id/spinnerItemName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:spinnerMode="dialog"
-            android:layout_marginTop="5dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:id="@+id/spinnerItemName">
-        </Spinner>
+            android:layout_marginTop="5dp"
+            android:spinnerMode="dialog"></Spinner>
 
         <android.support.design.widget.TextInputLayout
             android:id="@+id/itemcommisionWrapper"
@@ -73,7 +89,6 @@
                 android:inputType="numberDecimal" />
 
         </android.support.design.widget.TextInputLayout>
-
 
 
         <android.support.design.widget.TextInputLayout
@@ -122,8 +137,8 @@
                 android:id="@+id/text_sales"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="total"
                 android:enabled="false"
+                android:hint="total"
                 android:inputType="number" />
 
         </android.support.design.widget.TextInputLayout>
