@@ -20,6 +20,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.io.output.StringBuilderWriter;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -48,6 +49,7 @@ public class AddPurchaceInvoiceDialog extends DialogFragment implements TextWatc
     private ProgressDialog pDialog;
     private FragmentAddPurchaceInvoiceDialogBinding mBinding;
     private ArrayList<String> mSupplierList;
+    private PurchaseModel mPurchaseModel;
 
     public AddPurchaceInvoiceDialog() {
         // Required empty public constructor
@@ -119,6 +121,7 @@ public class AddPurchaceInvoiceDialog extends DialogFragment implements TextWatc
     private void setObjects() {
         pDialog = new ProgressDialog(getContext());
         pDialog.setCancelable(false);
+        mPurchaseModel = new PurchaseModel();
     }
 
     @NonNull
@@ -136,9 +139,11 @@ public class AddPurchaceInvoiceDialog extends DialogFragment implements TextWatc
         mSupplierList = (ArrayList<String>) getArguments().getSerializable("supplierList");
         mBinding.spinnerSupplierName.setAdapter(new ArrayAdapter<>(getContext(), R.layout.spinner, mSupplierList));
         pDialog.dismiss();
+
         getItemsForSupplier(mSupplierList.get(0));
         mBinding.textItemprice.addTextChangedListener(this);
         mBinding.textItemunit.addTextChangedListener(this);
+
         mBinding.spinnerSupplierName.setOnItemSelectedListener(this);
         mBinding.spinnerItemName.setOnItemSelectedListener(this);
 
@@ -181,7 +186,7 @@ public class AddPurchaceInvoiceDialog extends DialogFragment implements TextWatc
     }
 
     private void updatePurchase() {
-        Call<ResponseBody> updatePurchaseCall = mApiInterface.updatePurchase(Integer.valueOf(mBinding.textSuppplierid.getText().toString()),
+        Call<ResponseBody> updatePurchaseCall = mApiInterface.updatePurchase(mPurchaseModel.getId(),mBinding.textSupppliercode.getText().toString(),
                 mBinding.spinnerItemName.getSelectedItem().toString()
                 , mBinding.spinnerSupplierName.getSelectedItem().toString(), Float.parseFloat(mBinding.textItemcommision.getText().toString()),
                 Integer.parseInt(mBinding.textItemunit.getText().toString()), Integer.parseInt(mBinding.textItemprice.getText().toString()),
@@ -251,7 +256,8 @@ public class AddPurchaceInvoiceDialog extends DialogFragment implements TextWatc
                 mBinding.textItemprice.setText(String.valueOf(result.get(0).getPrice()));
                 mBinding.textItemunit.setText(String.valueOf(result.get(0).getQuantity()));
                 mBinding.textSales.setText(String.valueOf(result.get(0).getTotal()));
-                mBinding.textSuppplierid.setText(String.valueOf(result.get(0).getId()));
+                mBinding.textSupppliercode.setText(String.valueOf(result.get(0).getSupplierCode()));
+                mPurchaseModel.setId(Integer.valueOf(result.get(0).getId()));
             }
 
             @Override

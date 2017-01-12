@@ -20,6 +20,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.io.output.StringBuilderWriter;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -47,6 +48,7 @@ public class AddSalesInvoiceDialog extends DialogFragment implements TextWatcher
     private ProgressDialog pDialog;
     private FragmentAddSalesInvoiceDialogBinding mBinding;
     private ArrayList<String> mCustomersList;
+    private SalesModel mSalesModel;
 
     public AddSalesInvoiceDialog() {
         // Required empty public constructor
@@ -68,6 +70,8 @@ public class AddSalesInvoiceDialog extends DialogFragment implements TextWatcher
 
     private void setObjects() {
         pDialog = new ProgressDialog(getContext());
+        pDialog.setCancelable(false);
+        mSalesModel = new SalesModel();
         mApiInterface = RetrofitClient.getClient().create(ApiInterface.class);
     }
 
@@ -175,7 +179,7 @@ public class AddSalesInvoiceDialog extends DialogFragment implements TextWatcher
     private void updateSales() {
         pDialog.setMessage(getString(R.string.loading));
         pDialog.show();
-        Call<ResponseBody> updateInvoiceCall = mApiInterface.updateSales(Integer.valueOf(mBinding.textCustomerid.getText().toString()),
+        Call<ResponseBody> updateInvoiceCall = mApiInterface.updateSales(mSalesModel.getId(),mBinding.textCustomerid.getText().toString(),
                 mBinding.spinnerItemName.getSelectedItem().toString(),
                 mBinding.spinnerCustomerName.getSelectedItem().toString(), Float.parseFloat(mBinding.textItemcommision.getText().toString()),
                 Integer.parseInt(mBinding.textItemunit.getText().toString()), Integer.parseInt(mBinding.textItemprice.getText().toString()),
@@ -254,7 +258,8 @@ public class AddSalesInvoiceDialog extends DialogFragment implements TextWatcher
                 mBinding.textItemprice.setText(String.valueOf(result.get(0).getPrice()));
                 mBinding.textItemunit.setText(String.valueOf(result.get(0).getQuantity()));
                 mBinding.textSales.setText(String.valueOf(result.get(0).getTotal()));
-                mBinding.textCustomerid.setText(String.valueOf(result.get(0).getId()));
+                mBinding.textCustomerid.setText(String.valueOf(result.get(0).getCustomerCode()));
+                mSalesModel.setId(result.get(0).getId());
             }
 
             @Override

@@ -20,18 +20,13 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
 
 import me.ashif.mobileinventory.R;
-import me.ashif.mobileinventory.adapter.PurchaseInvoiceAdapter;
 import me.ashif.mobileinventory.adapter.SalesInvoiceAdapter;
 import me.ashif.mobileinventory.api.ApiInterface;
 import me.ashif.mobileinventory.api.RetrofitClient;
 import me.ashif.mobileinventory.databinding.ActivitySalesInvoiceBinding;
-import me.ashif.mobileinventory.fragment.AddPurchaceInvoiceDialog;
 import me.ashif.mobileinventory.fragment.AddSalesInvoiceDialog;
-import me.ashif.mobileinventory.model.PurchaseModel;
 import me.ashif.mobileinventory.model.SalesModel;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -40,6 +35,7 @@ import retrofit2.Response;
 
 public class SalesInvoiceActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
 
+    private static final String TAG = SalesInvoiceActivity.class.getSimpleName();
     private ActivitySalesInvoiceBinding mBinding;
     private ApiInterface mApiInterface;
     private ProgressDialog pDialog;
@@ -117,6 +113,7 @@ public class SalesInvoiceActivity extends AppCompatActivity implements View.OnCl
     private void setListeners() {
         mBinding.fab.setOnClickListener(this);
         mBinding.spinnerCustomerName.setOnItemSelectedListener(this);
+        mBinding.spinnerCustomerCode.setOnItemSelectedListener(this);
     }
 
     @Override
@@ -133,16 +130,69 @@ public class SalesInvoiceActivity extends AppCompatActivity implements View.OnCl
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         switch (adapterView.getId()) {
             case R.id.spinnerCustomerName:
-                getDetails(mBinding.spinnerCustomerName.getSelectedItem().toString());
+                getCustomerCode(mBinding.spinnerCustomerName.getSelectedItem().toString());
+                break;
+            case R.id.spinnerCustomerCode:
+                getDetails(mBinding.spinnerCustomerName.getSelectedItem().toString(),mBinding.spinnerCustomerCode.getSelectedItem().toString());
                 break;
         }
     }
 
-    private void getDetails(String customerName) {
+    private void getCustomerCode(String customerName) {
         pDialog.setMessage(getString(R.string.loading));
         pDialog.show();
 
-        Call<ArrayList<SalesModel>> salesCall = mApiInterface.getAllSales(customerName);
+        Call<ResponseBody> call = mApiInterface.getCustomerCode(customerName);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                pDialog.dismiss();
+
+                JSONObject j = null;
+                String json;
+                InputStream inputStream = response.body().byteStream();
+                try {
+                    json = IOUtils.toString(inputStream,"UTF-8");
+                    j = new JSONObject(json);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                ArrayList<String> codeList;
+                codeList = new ArrayList<>();
+                JSONArray jArray = null;
+                try {
+                    jArray = j.getJSONArray("entityCode");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                if (jArray != null) {
+                    for (int i=0;i<jArray.length();i++){
+                        try {
+                            codeList.add(jArray.getString(i));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+
+                mBinding.spinnerCustomerCode.setAdapter(new ArrayAdapter<>(getApplicationContext(), R.layout.spinner,codeList));
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                pDialog.dismiss();
+                Toast.makeText(getApplicationContext(),getString(R.string.failed),Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void getDetails(String customerName, String customerCode) {
+        pDialog.setMessage(getString(R.string.loading));
+        pDialog.show();
+
+        Call<ArrayList<SalesModel>> salesCall = mApiInterface.getAllSales(customerName,customerCode);
         salesCall.enqueue(new Callback<ArrayList<SalesModel>>() {
             @Override
             public void onResponse(Call<ArrayList<SalesModel>> call, Response<ArrayList<SalesModel>> response) {

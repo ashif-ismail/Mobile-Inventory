@@ -1,5 +1,10 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -45,13 +50,31 @@
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="5dp">
 
-                <EditText
+                <AutoCompleteTextView
                     android:id="@+id/text_itemsuppliername"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="supplier name"
+                    android:singleLine="true"
                     android:inputType="text" />
 
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/suppliercodeWrapper"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="5dp">
+            <AutoCompleteTextView
+                android:id="@+id/autocompletesuppliercode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="supplier code"
+                android:maxLines="1"
+                android:singleLine="true"
+                />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -66,7 +89,7 @@
                     android:id="@+id/text_suppliercomm"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="commission"
+                    android:hint="commission in %"
                     android:inputType="numberDecimal" />
 
             </android.support.design.widget.TextInputLayout>
@@ -100,7 +123,7 @@
                     android:id="@+id/text_unitprice"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="unit price"
+                    android:hint="unit price(riyal)"
                     android:inputType="number" />
 
             </android.support.design.widget.TextInputLayout>
@@ -144,4 +167,5 @@
         </LinearLayout>
 
     </RelativeLayout>
+    </ScrollView>
 </layout>

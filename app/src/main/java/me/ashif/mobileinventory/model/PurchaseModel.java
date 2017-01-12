@@ -1,9 +1,5 @@
 package me.ashif.mobileinventory.model;
 
-/**
- * Created by asif on 7/1/17.
- */
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -12,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonPropertyOrder({
         "id",
         "itemName",
+        "supplierCode",
         "quantity",
         "price",
         "total",
@@ -24,6 +21,8 @@ public class PurchaseModel {
     private Integer id;
     @JsonProperty("itemName")
     private String itemName;
+    @JsonProperty("supplierCode")
+    private Object supplierCode;
     @JsonProperty("quantity")
     private Integer quantity;
     @JsonProperty("price")
@@ -53,6 +52,16 @@ public class PurchaseModel {
     @JsonProperty("itemName")
     public void setItemName(String itemName) {
         this.itemName = itemName;
+    }
+
+    @JsonProperty("supplierCode")
+    public Object getSupplierCode() {
+        return supplierCode;
+    }
+
+    @JsonProperty("supplierCode")
+    public void setSupplierCode(Object supplierCode) {
+        this.supplierCode = supplierCode;
     }
 
     @JsonProperty("quantity")

@@ -32,8 +32,7 @@
                 android:id="@+id/text_customerid"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:enabled="false"
-                android:hint="customer ID"
+                android:hint="customer code"
                 android:inputType="number" />
 
         </android.support.design.widget.TextInputLayout>

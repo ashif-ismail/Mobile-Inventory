@@ -1,10 +1,5 @@
 package me.ashif.mobileinventory.model;
 
-/**
- * Created by Ashif on 9/1/17,January,2017
- * TechJini Solutions
- * Banglore,India
- */
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -14,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonPropertyOrder({
         "id",
         "itemName",
+        "customerCode",
         "quantity",
         "price",
         "total",
@@ -26,6 +22,8 @@ public class SalesModel {
     private Integer id;
     @JsonProperty("itemName")
     private String itemName;
+    @JsonProperty("customerCode")
+    private String customerCode;
     @JsonProperty("quantity")
     private Integer quantity;
     @JsonProperty("price")
@@ -55,6 +53,16 @@ public class SalesModel {
     @JsonProperty("itemName")
     public void setItemName(String itemName) {
         this.itemName = itemName;
+    }
+
+    @JsonProperty("customerCode")
+    public String getCustomerCode() {
+        return customerCode;
+    }
+
+    @JsonProperty("customerCode")
+    public void setCustomerCode(String customerCode) {
+        this.customerCode = customerCode;
     }
 
     @JsonProperty("quantity")
@@ -108,4 +116,3 @@ public class SalesModel {
     }
 
 }
-

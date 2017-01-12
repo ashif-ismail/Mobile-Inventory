@@ -41,7 +41,6 @@ public class SalesInvoiceAdapter extends RecyclerView.Adapter {
         ((SalesInvoiceViewHolder) holder).binding.textItemrname.setText(mSalesList.get(position).getItemName());
         ((SalesInvoiceViewHolder) holder).binding.textCommission.setText(String.valueOf(mSalesList.get(position).getCommission()));
         ((SalesInvoiceViewHolder) holder).binding.textSalesamount.setText(String.valueOf(mSalesList.get(position).getTotal()));
-        ((SalesInvoiceViewHolder) holder).binding.textSerialno.setText(String.valueOf(mSalesList.get(position).getId()));
         ((SalesInvoiceViewHolder) holder).binding.textUnitprice.setText(String.valueOf(mSalesList.get(position).getPrice()));
     }
 
