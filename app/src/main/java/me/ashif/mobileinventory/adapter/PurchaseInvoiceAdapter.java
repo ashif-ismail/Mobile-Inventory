@@ -13,8 +13,11 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 
 import me.ashif.mobileinventory.R;
+import me.ashif.mobileinventory.activity.PurchaseInvoiceActivity;
 import me.ashif.mobileinventory.databinding.PurchaseInvoiceItemsBinding;
+import me.ashif.mobileinventory.listener.OnDeleteClicked;
 import me.ashif.mobileinventory.model.PurchaseModel;
+import retrofit2.Callback;
 
 /**
  * Created by Ashif on 11/1/17,January,2017
@@ -30,18 +33,14 @@ public class PurchaseInvoiceAdapter extends RecyclerView.Adapter {
     private MenuInflater inflater;
     private android.view.ActionMode.Callback mCallback;
     private android.view.ActionMode mMode;
-    private deleteTriggeredListener listener;
+    private OnDeleteClicked mListener;
 
 
-    public PurchaseInvoiceAdapter(Context mContext, ArrayList<PurchaseModel> mPurchaseList, MenuInflater inflater) {
+    public PurchaseInvoiceAdapter(Context mContext, ArrayList<PurchaseModel> mPurchaseList, MenuInflater inflater,OnDeleteClicked listener) {
         this.mContext = mContext;
         this.mPurchaseList = mPurchaseList;
         this.inflater = inflater;
-        try {
-            this.listener = ((deleteTriggeredListener) mContext);
-        } catch (ClassCastException e) {
-            throw new ClassCastException("Activity must implement deleteTriggerListener.");
-        }
+        this.mListener = listener;
     }
 
     @Override
@@ -74,51 +73,37 @@ public class PurchaseInvoiceAdapter extends RecyclerView.Adapter {
             public boolean onActionItemClicked(android.view.ActionMode actionMode, MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
                     case R.id.delete:
-                        try{
-                            listener.deleteTriggered(mPurchaseList.get(position).getId());
-                            mPurchaseList.remove(position);
-                            notifyItemRemoved(position);
-                            notifyDataSetChanged();
-                            actionMode.finish();
-                        }
-                        catch (ClassCastException ex){
-                            ex.printStackTrace();
-                        }
+                            mListener.deleteClicked(mPurchaseList.get(position).getId());
+                                mPurchaseList.remove(position);
+                                notifyItemRemoved(position);
+                                notifyDataSetChanged();
+                                actionMode.finish();
                 }
                 return false;
             }
 
             @Override
             public void onDestroyActionMode(android.view.ActionMode actionMode) {
-
+                mMode = null;
             }
         };
-        View.OnLongClickListener listener = new View.OnLongClickListener() {
 
+        mBinding.cardViewThird.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
-            public boolean onLongClick(View v) {
+            public boolean onLongClick(View view) {
                 if (mMode != null)
                     return false;
                 else
-                    mMode = v.startActionMode(mCallback);
+                    mMode = view.startActionMode(mCallback);
                 return true;
             }
-        };
-
-        mBinding.cardViewThird.setOnLongClickListener(listener);
+        });
     }
 
     @Override
     public int getItemCount() {
         return mPurchaseList.size();
-
-
     }
-
-    public interface deleteTriggeredListener {
-        void deleteTriggered(int id);
-    }
-
     private class PurchasInvoiceViewHolder extends RecyclerView.ViewHolder {
         private PurchaseInvoiceItemsBinding binding;
 

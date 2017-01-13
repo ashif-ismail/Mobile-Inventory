@@ -190,8 +190,8 @@ public class EditPurchaseEntryActivity extends AppCompatActivity implements Text
 
     @Override
     public void afterTextChanged(Editable s) {
-        if (!mBinding.textUnitprice.getText().toString().isEmpty() && !
-                mBinding.textItemq.getText().toString().isEmpty()){
+        if (!mBinding.textUnitprice.getText().toString().isEmpty() &&
+                !mBinding.textItemq.getText().toString().isEmpty() && !mBinding.textItemq.getText().toString().isEmpty()){
             float comm = Float.valueOf(mBinding.textSuppliercomm.getText().toString()) / 100;
             float totalAmount = Integer.valueOf(mBinding.textItemq.getText().toString())*
                     Integer.valueOf(mBinding.textUnitprice.getText().toString());

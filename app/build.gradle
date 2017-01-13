@@ -47,6 +47,8 @@ dependencies {
     compile 'com.android.support:design:24.2.1'
     compile 'com.squareup.retrofit2:converter-jackson:2.1.0'
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
+    compile 'de.codecrafters.tableview:tableview:2.4.1'
+    compile 'com.github.clans:fab:1.6.4'
     compile group: 'commons-io', name: 'commons-io', version: '2.0.1'
     testCompile 'junit:junit:4.12'
 }

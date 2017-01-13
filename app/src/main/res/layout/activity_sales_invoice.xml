@@ -1,4 +1,4 @@
-<layout>
+<layout xmlns:fab="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
@@ -99,16 +99,41 @@
                 android:layout_height="wrap_content"
                 android:scrollbars="none" />
 
-            <android.support.design.widget.FloatingActionButton xmlns:app="http://schemas.android.com/apk/res-auto"
+            <com.github.clans.fab.FloatingActionMenu
                 android:id="@+id/fab"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right|bottom"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
                 android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                app:borderWidth="0dp"
-                app:rippleColor="#ffffff"
-                app:srcCompat="@drawable/ic_add_black_24dp" />
+                fab:menu_backgroundColor="@android:color/transparent"
+                fab:menu_fab_size="normal"
+                fab:menu_labels_colorNormal="#333333"
+                fab:menu_labels_colorPressed="#444444"
+                fab:menu_labels_colorRipple="#66FFFFFF"
+                fab:menu_labels_cornerRadius="3dp"
+                android:layout_gravity="bottom|right"
+                >
+
+                <com.github.clans.fab.FloatingActionButton
+                    android:id="@+id/menu_item1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_mode_edit_black_24dp"
+                    fab:fab_label="Edit details"
+                    fab:fab_size="mini" />
+
+                <com.github.clans.fab.FloatingActionButton
+                    android:id="@+id/menu_item2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_visibility_black_24dp"
+                    fab:fab_label="View report"
+                    fab:fab_size="mini" />
+
+            </com.github.clans.fab.FloatingActionMenu>
 
         </FrameLayout>
 

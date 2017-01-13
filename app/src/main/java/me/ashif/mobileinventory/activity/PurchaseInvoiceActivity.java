@@ -1,9 +1,12 @@
 package me.ashif.mobileinventory.activity;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
@@ -30,6 +33,7 @@ import me.ashif.mobileinventory.api.ApiInterface;
 import me.ashif.mobileinventory.api.RetrofitClient;
 import me.ashif.mobileinventory.databinding.ActivityPurchaseInvoiceBinding;
 import me.ashif.mobileinventory.fragment.AddPurchaceInvoiceDialog;
+import me.ashif.mobileinventory.listener.OnDeleteClicked;
 import me.ashif.mobileinventory.model.PurchaseModel;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -38,7 +42,7 @@ import retrofit2.Response;
 
 public class PurchaseInvoiceActivity extends AppCompatActivity implements View.OnClickListener,
         AdapterView.OnItemSelectedListener,
-        PurchaseInvoiceAdapter.deleteTriggeredListener {
+        OnDeleteClicked {
 
     private static String TAG = PurchaseInvoiceActivity.class.getSimpleName();
     private ActivityPurchaseInvoiceBinding mBinding;
@@ -117,7 +121,8 @@ public class PurchaseInvoiceActivity extends AppCompatActivity implements View.O
     }
 
     private void setListeners() {
-        mBinding.fab.setOnClickListener(this);
+        mBinding.menuItem1.setOnClickListener(this);
+        mBinding.menuItem2.setOnClickListener(this);
         mBinding.spinnerSupplierNameAc.setOnItemSelectedListener(this);
         mBinding.spinnerSuppliercodeAc.setOnItemSelectedListener(this);
     }
@@ -125,11 +130,17 @@ public class PurchaseInvoiceActivity extends AppCompatActivity implements View.O
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.fab: {
+            case R.id.menu_item1: {
                 FragmentManager fm = getSupportFragmentManager();
                 AddPurchaceInvoiceDialog purchaceInvoiceDialog = AddPurchaceInvoiceDialog.newInstance(listdata);
                 purchaceInvoiceDialog.show(fm, "fragment_add_purchase");
             }
+            break;
+            case R.id.menu_item2:{
+                Intent intent = new Intent(PurchaseInvoiceActivity.this,SalesReportActivity.class);
+                startActivity(intent);
+            }
+            break;
         }
     }
 
@@ -205,9 +216,7 @@ public class PurchaseInvoiceActivity extends AppCompatActivity implements View.O
                 pDialog.dismiss();
                 ArrayList<PurchaseModel> result = new ArrayList<>();
                 result.addAll(response.body());
-
-                mBinding.purchaseInvoiceList.setAdapter(new PurchaseInvoiceAdapter(getApplicationContext(), result, inflater));
-                mBinding.purchaseInvoiceList.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                fillList(result);
             }
 
             @Override
@@ -218,26 +227,31 @@ public class PurchaseInvoiceActivity extends AppCompatActivity implements View.O
         });
     }
 
+    private void fillList(ArrayList<PurchaseModel> result) {
+        mBinding.purchaseInvoiceList.setAdapter(new PurchaseInvoiceAdapter(getApplicationContext(), result, inflater, this));
+        mBinding.purchaseInvoiceList.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+    }
+
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
 
     }
 
     @Override
-    public void deleteTriggered(int id) {
+    public void deleteClicked(final int id) {
         Log.d(TAG, "deleteTriggered: inside delete");
         Call<ResponseBody> call = mApiInterface.deletePurchase(id);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                Log.d(TAG, "onResponse: "+response.message());
-                Toast.makeText(getApplicationContext(), R.string.deleted,Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "onResponse: " + response.message());
+                Toast.makeText(getApplicationContext(), R.string.deleted, Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Log.d(TAG, "onFailure: "+t.getMessage());
-                Toast.makeText(getApplicationContext(), R.string.failed,Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "onFailure: " + t.getMessage());
+                Toast.makeText(getApplicationContext(), R.string.failed, Toast.LENGTH_SHORT).show();
             }
         });
     }

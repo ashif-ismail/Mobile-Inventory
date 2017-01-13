@@ -20,7 +20,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.io.output.StringBuilderWriter;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -88,9 +87,13 @@ public class AddSalesInvoiceDialog extends DialogFragment implements TextWatcher
         alertDialogBuilder.setView(mBinding.getRoot());
 
         mCustomersList = (ArrayList<String>) getArguments().getSerializable("customerList");
-        mBinding.spinnerCustomerName.setAdapter(new ArrayAdapter<>(getContext(), R.layout.spinner, mCustomersList));
+        if (mCustomersList.size() != 0) {
+            mBinding.spinnerCustomerName.setAdapter(new ArrayAdapter<>(getContext(), R.layout.spinner, mCustomersList));
+        }
         pDialog.dismiss();
-        getItemsForCustomer(mCustomersList.get(0));
+        if (mCustomersList.size() != 0) {
+            getItemsForCustomer(mCustomersList.get(0));
+        }
         mBinding.spinnerCustomerName.setOnItemSelectedListener(this);
         mBinding.spinnerItemName.setOnItemSelectedListener(this);
 
@@ -179,7 +182,7 @@ public class AddSalesInvoiceDialog extends DialogFragment implements TextWatcher
     private void updateSales() {
         pDialog.setMessage(getString(R.string.loading));
         pDialog.show();
-        Call<ResponseBody> updateInvoiceCall = mApiInterface.updateSales(mSalesModel.getId(),mBinding.textCustomerid.getText().toString(),
+        Call<ResponseBody> updateInvoiceCall = mApiInterface.updateSales(mSalesModel.getId(), mBinding.textCustomerid.getText().toString(),
                 mBinding.spinnerItemName.getSelectedItem().toString(),
                 mBinding.spinnerCustomerName.getSelectedItem().toString(), Float.parseFloat(mBinding.textItemcommision.getText().toString()),
                 Integer.parseInt(mBinding.textItemunit.getText().toString()), Integer.parseInt(mBinding.textItemprice.getText().toString()),
@@ -188,7 +191,7 @@ public class AddSalesInvoiceDialog extends DialogFragment implements TextWatcher
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 pDialog.dismiss();
-                Log.d("asdad", "onResponse: " +response.message());
+                Log.d("asdad", "onResponse: " + response.message());
             }
 
             @Override

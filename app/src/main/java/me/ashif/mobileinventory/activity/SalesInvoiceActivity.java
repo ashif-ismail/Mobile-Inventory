@@ -2,11 +2,12 @@ package me.ashif.mobileinventory.activity;
 
 import android.app.ProgressDialog;
 import android.databinding.DataBindingUtil;
+import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
+import android.view.MenuInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -27,24 +28,28 @@ import me.ashif.mobileinventory.api.ApiInterface;
 import me.ashif.mobileinventory.api.RetrofitClient;
 import me.ashif.mobileinventory.databinding.ActivitySalesInvoiceBinding;
 import me.ashif.mobileinventory.fragment.AddSalesInvoiceDialog;
+import me.ashif.mobileinventory.listener.OnDeleteClicked;
 import me.ashif.mobileinventory.model.SalesModel;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class SalesInvoiceActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
+public class SalesInvoiceActivity extends AppCompatActivity implements View.OnClickListener,
+        AdapterView.OnItemSelectedListener,
+        OnDeleteClicked {
 
     private static final String TAG = SalesInvoiceActivity.class.getSimpleName();
     private ActivitySalesInvoiceBinding mBinding;
     private ApiInterface mApiInterface;
     private ProgressDialog pDialog;
     private ArrayList<String> listdata;
+    private MenuInflater inflater;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mBinding = DataBindingUtil.setContentView(this,R.layout.activity_sales_invoice);
+        mBinding = DataBindingUtil.setContentView(this, R.layout.activity_sales_invoice);
 
         setListeners();
         setObjects();
@@ -55,6 +60,7 @@ public class SalesInvoiceActivity extends AppCompatActivity implements View.OnCl
         mApiInterface = RetrofitClient.getClient().create(ApiInterface.class);
         pDialog = new ProgressDialog(this);
         pDialog.setCancelable(false);
+        inflater = getMenuInflater();
     }
 
     private void getCustomersList() {
@@ -71,7 +77,7 @@ public class SalesInvoiceActivity extends AppCompatActivity implements View.OnCl
                 String json;
                 InputStream inputStream = response.body().byteStream();
                 try {
-                    json = IOUtils.toString(inputStream,"UTF-8");
+                    json = IOUtils.toString(inputStream, "UTF-8");
                     j = new JSONObject(json);
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -87,7 +93,7 @@ public class SalesInvoiceActivity extends AppCompatActivity implements View.OnCl
                     e.printStackTrace();
                 }
                 if (jArray != null) {
-                    for (int i=0;i<jArray.length();i++){
+                    for (int i = 0; i < jArray.length(); i++) {
                         try {
                             listdata.add(jArray.getString(i));
                         } catch (JSONException e) {
@@ -99,27 +105,27 @@ public class SalesInvoiceActivity extends AppCompatActivity implements View.OnCl
 //                hs.addAll(listdata);
 //                listdata.clear();
 //                listdata.addAll(hs);
-                mBinding.spinnerCustomerName.setAdapter(new ArrayAdapter<>(getApplicationContext(), R.layout.spinner,listdata));
+                mBinding.spinnerCustomerName.setAdapter(new ArrayAdapter<>(getApplicationContext(), R.layout.spinner, listdata));
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 pDialog.dismiss();
-                Toast.makeText(getApplicationContext(),getString(R.string.failed),Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), getString(R.string.failed), Toast.LENGTH_SHORT).show();
             }
         });
     }
 
     private void setListeners() {
-        mBinding.fab.setOnClickListener(this);
+        mBinding.menuItem1.setOnClickListener(this);
         mBinding.spinnerCustomerName.setOnItemSelectedListener(this);
         mBinding.spinnerCustomerCode.setOnItemSelectedListener(this);
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.fab:
+        switch (v.getId()) {
+            case R.id.menu_item1:
                 FragmentManager fm = getSupportFragmentManager();
                 AddSalesInvoiceDialog salesInvoiceDialog = AddSalesInvoiceDialog.newInstance(listdata);
                 salesInvoiceDialog.show(fm, "fragment_add_sales");
@@ -133,7 +139,7 @@ public class SalesInvoiceActivity extends AppCompatActivity implements View.OnCl
                 getCustomerCode(mBinding.spinnerCustomerName.getSelectedItem().toString());
                 break;
             case R.id.spinnerCustomerCode:
-                getDetails(mBinding.spinnerCustomerName.getSelectedItem().toString(),mBinding.spinnerCustomerCode.getSelectedItem().toString());
+                getDetails(mBinding.spinnerCustomerName.getSelectedItem().toString(), mBinding.spinnerCustomerCode.getSelectedItem().toString());
                 break;
         }
     }
@@ -152,7 +158,7 @@ public class SalesInvoiceActivity extends AppCompatActivity implements View.OnCl
                 String json;
                 InputStream inputStream = response.body().byteStream();
                 try {
-                    json = IOUtils.toString(inputStream,"UTF-8");
+                    json = IOUtils.toString(inputStream, "UTF-8");
                     j = new JSONObject(json);
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -168,7 +174,7 @@ public class SalesInvoiceActivity extends AppCompatActivity implements View.OnCl
                     e.printStackTrace();
                 }
                 if (jArray != null) {
-                    for (int i=0;i<jArray.length();i++){
+                    for (int i = 0; i < jArray.length(); i++) {
                         try {
                             codeList.add(jArray.getString(i));
                         } catch (JSONException e) {
@@ -177,13 +183,13 @@ public class SalesInvoiceActivity extends AppCompatActivity implements View.OnCl
                     }
                 }
 
-                mBinding.spinnerCustomerCode.setAdapter(new ArrayAdapter<>(getApplicationContext(), R.layout.spinner,codeList));
+                mBinding.spinnerCustomerCode.setAdapter(new ArrayAdapter<>(getApplicationContext(), R.layout.spinner, codeList));
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 pDialog.dismiss();
-                Toast.makeText(getApplicationContext(),getString(R.string.failed),Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), getString(R.string.failed), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -192,7 +198,7 @@ public class SalesInvoiceActivity extends AppCompatActivity implements View.OnCl
         pDialog.setMessage(getString(R.string.loading));
         pDialog.show();
 
-        Call<ArrayList<SalesModel>> salesCall = mApiInterface.getAllSales(customerName,customerCode);
+        Call<ArrayList<SalesModel>> salesCall = mApiInterface.getAllSales(customerName, customerCode);
         salesCall.enqueue(new Callback<ArrayList<SalesModel>>() {
             @Override
             public void onResponse(Call<ArrayList<SalesModel>> call, Response<ArrayList<SalesModel>> response) {
@@ -200,20 +206,43 @@ public class SalesInvoiceActivity extends AppCompatActivity implements View.OnCl
                 ArrayList<SalesModel> result = new ArrayList<>();
                 result.addAll(response.body());
 
-                mBinding.salesInvoiceList.setAdapter(new SalesInvoiceAdapter(getApplicationContext(), result));
-                mBinding.salesInvoiceList.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-                Log.d("asas", "onFailure: "+response.message());
+                fillList(result);
+                Log.d("asas", "onFailure: " + response.message());
             }
 
             @Override
             public void onFailure(Call<ArrayList<SalesModel>> call, Throwable t) {
-                Log.d("asas", "onFailure: "+t.getMessage());
+                Log.d("asas", "onFailure: " + t.getMessage());
             }
         });
+    }
+
+    private void fillList(ArrayList<SalesModel> result) {
+        mBinding.salesInvoiceList.setAdapter(new SalesInvoiceAdapter(getApplicationContext(), result, inflater, this));
+        mBinding.salesInvoiceList.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
 
+    }
+
+    @Override
+    public void deleteClicked(int id) {
+        Log.d(TAG, "deleteTriggered: inside delete");
+        Call<ResponseBody> call = mApiInterface.deleteSales(id);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                Log.d(TAG, "onResponse: " + response.message());
+                Toast.makeText(getApplicationContext(), R.string.deleted, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Log.d(TAG, "onFailure: " + t.getMessage());
+                Toast.makeText(getApplicationContext(), R.string.failed, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

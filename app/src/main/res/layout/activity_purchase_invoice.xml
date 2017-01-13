@@ -1,11 +1,12 @@
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/tools"
+    xmlns:fab="http://schemas.android.com/apk/res-auto">
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-
 
 
         <TextView
@@ -30,49 +31,44 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/text_suppliername"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="supplier name"
-                        android:layout_marginLeft="13dp"
-                        android:textColor="@color/colorAccent"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginTop="5dp"
-                        />
+                <TextView
+                    android:id="@+id/text_suppliername"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="13dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="5dp"
+                    android:text="supplier name"
+                    android:textColor="@color/colorAccent" />
 
-                    <Spinner
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/spinnerSupplierNameAc"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginTop="5dp"
-                        android:spinnerMode="dialog"
-                        ></Spinner>
-
+                <Spinner
+                    android:id="@+id/spinnerSupplierNameAc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="5dp"
+                    android:spinnerMode="dialog"></Spinner>
 
 
                 <TextView
                     android:id="@+id/text_suppliercode"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="supplier code"
                     android:layout_marginLeft="13dp"
-                    android:textColor="@color/colorAccent"
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="5dp"
-                    />
+                    android:text="supplier code"
+                    android:textColor="@color/colorAccent" />
 
                 <Spinner
+                    android:id="@+id/spinnerSuppliercodeAc"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/spinnerSuppliercodeAc"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="5dp"
-                    android:spinnerMode="dialog"
-                    ></Spinner>
+                    android:spinnerMode="dialog"></Spinner>
             </LinearLayout>
         </android.support.v7.widget.CardView>
 
@@ -86,21 +82,43 @@
                 android:layout_height="wrap_content"
                 android:scrollbars="vertical" />
 
-            <android.support.design.widget.FloatingActionButton xmlns:app="http://schemas.android.com/apk/res-auto"
+            <com.github.clans.fab.FloatingActionMenu
                 android:id="@+id/fab"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right|bottom"
-                android:layout_marginRight="10dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
                 android:layout_marginBottom="10dp"
-                app:borderWidth="0dp"
-                app:rippleColor="#ffffff"
-                app:srcCompat="@drawable/ic_add_black_24dp" />
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                fab:menu_backgroundColor="@android:color/transparent"
+                fab:menu_fab_size="normal"
+                fab:menu_labels_colorNormal="#333333"
+                fab:menu_labels_colorPressed="#444444"
+                fab:menu_labels_colorRipple="#66FFFFFF"
+                fab:menu_labels_cornerRadius="3dp"
+                android:layout_gravity="bottom|right"
+                >
+
+                <com.github.clans.fab.FloatingActionButton
+                    android:id="@+id/menu_item1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_mode_edit_black_24dp"
+                    fab:fab_label="Edit details"
+                    fab:fab_size="mini" />
+
+                <com.github.clans.fab.FloatingActionButton
+                    android:id="@+id/menu_item2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_visibility_black_24dp"
+                    fab:fab_label="View report"
+                    fab:fab_size="mini" />
+
+            </com.github.clans.fab.FloatingActionMenu>
 
         </FrameLayout>
-
-
-
     </LinearLayout>
 </layout>
 

@@ -103,6 +103,15 @@ public interface ApiInterface {
     @GET("sales/customercode")
     Call<ResponseBody> getCustomerCode(@Query("customerName") String customerName);
 
-    @DELETE("purchase/delete")
+    @DELETE("purchase/delete/{id}")
     Call<ResponseBody> deletePurchase(@Path("id") Integer id);
+
+    @DELETE("sales/delete/{id}")
+    Call<ResponseBody> deleteSales(@Path("id") Integer id);
+
+    @GET("sales")
+    Call<ArrayList<SalesModel>> getAllSalesReport();
+
+    @GET("purchase/")
+    Call<ResponseBody> getAllPurchaseReport();
 }

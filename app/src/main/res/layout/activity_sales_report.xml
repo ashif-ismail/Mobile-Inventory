@@ -1,0 +1,20 @@
+<layout xmlns:custom="http://schemas.android.com/apk/res-auto">
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/activity_sales_report"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="me.ashif.mobileinventory.activity.SalesReportActivity">
+
+        <de.codecrafters.tableview.TableView
+            xmlns:table="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/tableView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            custom:tableView_headerColor="@color/colorPrimary"
+            table:tableView_columnCount="7"
+            custom:tableView_headerElevation="10"/>
+
+    </RelativeLayout>
+</layout>
+

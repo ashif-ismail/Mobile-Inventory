@@ -20,7 +20,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.io.output.StringBuilderWriter;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -137,10 +136,13 @@ public class AddPurchaceInvoiceDialog extends DialogFragment implements TextWatc
         alertDialogBuilder.setView(mBinding.getRoot());
 
         mSupplierList = (ArrayList<String>) getArguments().getSerializable("supplierList");
-        mBinding.spinnerSupplierName.setAdapter(new ArrayAdapter<>(getContext(), R.layout.spinner, mSupplierList));
+        if (mSupplierList.size() != 0) {
+            mBinding.spinnerSupplierName.setAdapter(new ArrayAdapter<>(getContext(), R.layout.spinner, mSupplierList));
+        }
         pDialog.dismiss();
-
-        getItemsForSupplier(mSupplierList.get(0));
+        if (mSupplierList.size() != 0) {
+            getItemsForSupplier(mSupplierList.get(0));
+        }
         mBinding.textItemprice.addTextChangedListener(this);
         mBinding.textItemunit.addTextChangedListener(this);
 
@@ -186,7 +188,7 @@ public class AddPurchaceInvoiceDialog extends DialogFragment implements TextWatc
     }
 
     private void updatePurchase() {
-        Call<ResponseBody> updatePurchaseCall = mApiInterface.updatePurchase(mPurchaseModel.getId(),mBinding.textSupppliercode.getText().toString(),
+        Call<ResponseBody> updatePurchaseCall = mApiInterface.updatePurchase(mPurchaseModel.getId(), mBinding.textSupppliercode.getText().toString(),
                 mBinding.spinnerItemName.getSelectedItem().toString()
                 , mBinding.spinnerSupplierName.getSelectedItem().toString(), Float.parseFloat(mBinding.textItemcommision.getText().toString()),
                 Integer.parseInt(mBinding.textItemunit.getText().toString()), Integer.parseInt(mBinding.textItemprice.getText().toString()),
