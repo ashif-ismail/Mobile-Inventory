@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
@@ -29,6 +30,7 @@ import me.ashif.mobileinventory.api.RetrofitClient;
 import me.ashif.mobileinventory.databinding.ActivitySalesInvoiceBinding;
 import me.ashif.mobileinventory.fragment.AddSalesInvoiceDialog;
 import me.ashif.mobileinventory.listener.OnDeleteClicked;
+import me.ashif.mobileinventory.model.PurchaseModel;
 import me.ashif.mobileinventory.model.SalesModel;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -45,6 +47,7 @@ public class SalesInvoiceActivity extends AppCompatActivity implements View.OnCl
     private ProgressDialog pDialog;
     private ArrayList<String> listdata;
     private MenuInflater inflater;
+    private float mTotal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,6 +121,7 @@ public class SalesInvoiceActivity extends AppCompatActivity implements View.OnCl
 
     private void setListeners() {
         mBinding.menuItem1.setOnClickListener(this);
+        mBinding.menuItem2.setOnClickListener(this);
         mBinding.spinnerCustomerName.setOnItemSelectedListener(this);
         mBinding.spinnerCustomerCode.setOnItemSelectedListener(this);
     }
@@ -125,10 +129,20 @@ public class SalesInvoiceActivity extends AppCompatActivity implements View.OnCl
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.menu_item1:
+            case R.id.menu_item1: {
                 FragmentManager fm = getSupportFragmentManager();
                 AddSalesInvoiceDialog salesInvoiceDialog = AddSalesInvoiceDialog.newInstance(listdata);
                 salesInvoiceDialog.show(fm, "fragment_add_sales");
+            }
+            break;
+            case R.id.menu_item2: {
+                new AlertDialog.Builder(this)
+                        .setTitle("Report")
+                        .setMessage("Net Sales Amount : " + mTotal + " riyal")
+                        .setPositiveButton("ok", null)
+                        .show();
+            }
+            break;
         }
     }
 
@@ -207,7 +221,11 @@ public class SalesInvoiceActivity extends AppCompatActivity implements View.OnCl
                 result.addAll(response.body());
 
                 fillList(result);
-                Log.d("asas", "onFailure: " + response.message());
+                ArrayList<Float> totalList = new ArrayList<Float>();
+                for (SalesModel s : result){
+                    totalList.add(s.getTotal());
+                }
+                sumIt(totalList);
             }
 
             @Override
@@ -215,6 +233,13 @@ public class SalesInvoiceActivity extends AppCompatActivity implements View.OnCl
                 Log.d("asas", "onFailure: " + t.getMessage());
             }
         });
+    }
+
+    private void sumIt(ArrayList<Float> totalList) {
+        for(int i = 0; i < totalList.size(); i++)
+        {
+            mTotal += totalList.get(i);
+        }
     }
 
     private void fillList(ArrayList<SalesModel> result) {

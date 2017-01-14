@@ -27,7 +27,6 @@
             android:name=".activity.EditPurchaseEntryActivity"
             android:parentActivityName=".activity.MainActivity" />
         <activity android:name=".activity.EditSalesEntryActivity" />
-        <activity android:name=".activity.SalesReportActivity"></activity>
     </application>
 
 </manifest>

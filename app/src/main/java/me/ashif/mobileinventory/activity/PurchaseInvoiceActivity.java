@@ -50,6 +50,7 @@ public class PurchaseInvoiceActivity extends AppCompatActivity implements View.O
     private ProgressDialog pDialog;
     private ArrayList<String> listdata;
     private MenuInflater inflater;
+    private float mTotal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -137,8 +138,11 @@ public class PurchaseInvoiceActivity extends AppCompatActivity implements View.O
             }
             break;
             case R.id.menu_item2:{
-                Intent intent = new Intent(PurchaseInvoiceActivity.this,SalesReportActivity.class);
-                startActivity(intent);
+                new AlertDialog.Builder(this)
+                        .setTitle("Report")
+                        .setMessage("Net Purchase Amount : " + mTotal + " riyal")
+                        .setPositiveButton("ok",null)
+                        .show();
             }
             break;
         }
@@ -217,6 +221,12 @@ public class PurchaseInvoiceActivity extends AppCompatActivity implements View.O
                 ArrayList<PurchaseModel> result = new ArrayList<>();
                 result.addAll(response.body());
                 fillList(result);
+                ArrayList<Float> totalList = new ArrayList<Float>();
+                for (PurchaseModel p : result){
+                    totalList.add(p.getTotal());
+                }
+                sumIt(totalList);
+
             }
 
             @Override
@@ -225,6 +235,13 @@ public class PurchaseInvoiceActivity extends AppCompatActivity implements View.O
                 Log.d(TAG, "onFailure: " + t.getMessage());
             }
         });
+    }
+
+    private void sumIt(ArrayList<Float> totalList) {
+        for(int i = 0; i < totalList.size(); i++)
+        {
+            mTotal += totalList.get(i);
+        }
     }
 
     private void fillList(ArrayList<PurchaseModel> result) {
