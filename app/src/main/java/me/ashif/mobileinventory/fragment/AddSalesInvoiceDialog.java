@@ -222,11 +222,13 @@ public class AddSalesInvoiceDialog extends DialogFragment implements TextWatcher
 
     @Override
     public void afterTextChanged(Editable editable) {
-        if (!mBinding.textItemprice.getText().toString().isEmpty() && !
-                mBinding.textItemunit.getText().toString().isEmpty()) {
-            int totalAmount = Integer.valueOf(mBinding.textItemunit.getText().toString()) *
+        if (!mBinding.textItemunit.getText().toString().isEmpty() &&
+                !mBinding.textItemprice.getText().toString().isEmpty() && !mBinding.textItemcommision.getText().toString().isEmpty()){
+            float comm = Float.valueOf(mBinding.textItemcommision.getText().toString()) / 100;
+            float totalAmount = Integer.valueOf(mBinding.textItemunit.getText().toString())*
                     Integer.valueOf(mBinding.textItemprice.getText().toString());
-            mBinding.textSales.setText(String.valueOf(totalAmount));
+            float amountToDetect =totalAmount * comm;
+            mBinding.textSales.setText(String.valueOf(totalAmount - amountToDetect));
         }
     }
 

@@ -1,10 +1,8 @@
 package me.ashif.mobileinventory.adapter;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.databinding.DataBindingUtil;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -94,8 +92,8 @@ public class PurchaseInvoiceAdapter extends RecyclerView.Adapter {
     }
 
     private class PurchasInvoiceViewHolder extends RecyclerView.ViewHolder {
-        private PurchaseInvoiceItemsBinding binding;
 
+        private PurchaseInvoiceItemsBinding binding;
 
         public PurchasInvoiceViewHolder(final PurchaseInvoiceItemsBinding mBinding) {
             super(mBinding.getRoot());
@@ -111,7 +109,6 @@ public class PurchaseInvoiceAdapter extends RecyclerView.Adapter {
                     return true;
                 }
             });
-
         }
 
     }
