@@ -33,7 +33,7 @@ public class SalesInvoiceAdapter extends RecyclerView.Adapter {
     private android.view.ActionMode mMode;
     private OnDeleteClicked mListener;
 
-    public SalesInvoiceAdapter(Context mContext, ArrayList<SalesModel> mSalesList,MenuInflater inflater,OnDeleteClicked mListener) {
+    public SalesInvoiceAdapter(Context mContext, ArrayList<SalesModel> mSalesList, MenuInflater inflater, OnDeleteClicked mListener) {
         this.mContext = mContext;
         this.mSalesList = mSalesList;
         this.inflater = inflater;
@@ -93,6 +93,7 @@ public class SalesInvoiceAdapter extends RecyclerView.Adapter {
 
     private class SalesInvoiceViewHolder extends RecyclerView.ViewHolder {
         private SalesInvoiceItemsBinding binding;
+
         public SalesInvoiceViewHolder(SalesInvoiceItemsBinding mBinding) {
             super(mBinding.getRoot());
             this.binding = mBinding;

@@ -1,6 +1,7 @@
 package me.ashif.mobileinventory.adapter;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.databinding.DataBindingUtil;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -72,9 +73,7 @@ public class PurchaseInvoiceAdapter extends RecyclerView.Adapter {
             public boolean onActionItemClicked(android.view.ActionMode actionMode, MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
                     case R.id.delete:
-                        Log.d("adapter", "onActionItemClicked: " + mPurchaseList.size());
                         mListener.deleteClicked(mPurchaseList.get(position).getId());
-                        Log.e("adat", "onActionItemClicked: "+mPurchaseList.get(position).getId() );
                         mPurchaseList.remove(position);
                         notifyDataSetChanged();
                         actionMode.finish();
