@@ -87,9 +87,9 @@ public class AddSalesInvoiceDialog extends DialogFragment implements TextWatcher
         alertDialogBuilder.setView(mBinding.getRoot());
 
         mCustomersList = (ArrayList<String>) getArguments().getSerializable("customerList");
-        if (mCustomersList.size() != 0) {
-            mBinding.spinnerCustomerName.setAdapter(new ArrayAdapter<>(getContext(), R.layout.spinner, mCustomersList));
-        }
+//        if (mCustomersList.size() != 0) {
+        mBinding.spinnerCustomerName.setAdapter(new ArrayAdapter<>(getContext(), R.layout.spinner, mCustomersList));
+        //  }
         pDialog.dismiss();
         if (mCustomersList.size() != 0) {
             getItemsForCustomer(mCustomersList.get(0));

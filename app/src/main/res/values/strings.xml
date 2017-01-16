@@ -8,4 +8,5 @@
     <string name="failed">something went wrong</string>
     <string name="fieldsmissing">fields required are missing</string>
     <string name="deleted">successfully deleted</string>
+    <string name="retrying">retrying...</string>
 </resources>

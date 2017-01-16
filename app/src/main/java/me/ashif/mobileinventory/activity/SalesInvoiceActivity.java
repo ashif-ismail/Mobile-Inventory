@@ -1,6 +1,7 @@
 package me.ashif.mobileinventory.activity;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -22,6 +23,8 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 import me.ashif.mobileinventory.R;
 import me.ashif.mobileinventory.adapter.SalesInvoiceAdapter;
@@ -30,7 +33,6 @@ import me.ashif.mobileinventory.api.RetrofitClient;
 import me.ashif.mobileinventory.databinding.ActivitySalesInvoiceBinding;
 import me.ashif.mobileinventory.fragment.AddSalesInvoiceDialog;
 import me.ashif.mobileinventory.listener.OnDeleteClicked;
-import me.ashif.mobileinventory.model.PurchaseModel;
 import me.ashif.mobileinventory.model.SalesModel;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -104,17 +106,26 @@ public class SalesInvoiceActivity extends AppCompatActivity implements View.OnCl
                         }
                     }
                 }
-//                Set<String> hs = new HashSet<>();
-//                hs.addAll(listdata);
-//                listdata.clear();
-//                listdata.addAll(hs);
+                Set<String> hs = new HashSet<>();
+                hs.addAll(listdata);
+                listdata.clear();
+                listdata.addAll(hs);
                 mBinding.spinnerCustomerName.setAdapter(new ArrayAdapter<>(getApplicationContext(), R.layout.spinner, listdata));
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 pDialog.dismiss();
-                Toast.makeText(getApplicationContext(), getString(R.string.failed), Toast.LENGTH_SHORT).show();
+                new AlertDialog.Builder(getApplicationContext())
+                        .setTitle("Error")
+                        .setMessage("Failed to reach our servers")
+                        .setPositiveButton("retry", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                getCustomersList();
+                                Toast.makeText(getApplicationContext(), R.string.retrying, Toast.LENGTH_SHORT).show();
+                            }
+                        });
             }
         });
     }
@@ -196,13 +207,26 @@ public class SalesInvoiceActivity extends AppCompatActivity implements View.OnCl
                         }
                     }
                 }
-
+                Set<String> hs = new HashSet<>();
+                hs.addAll(listdata);
+                listdata.clear();
+                listdata.addAll(hs);
                 mBinding.spinnerCustomerCode.setAdapter(new ArrayAdapter<>(getApplicationContext(), R.layout.spinner, codeList));
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 pDialog.dismiss();
+                new AlertDialog.Builder(getApplicationContext())
+                        .setTitle("Error")
+                        .setMessage("Failed to reach our servers")
+                        .setPositiveButton("retry", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                getCustomerCode(mBinding.spinnerCustomerName.getSelectedItem().toString());
+                                Toast.makeText(getApplicationContext(), R.string.retrying, Toast.LENGTH_SHORT).show();
+                            }
+                        });
                 Toast.makeText(getApplicationContext(), getString(R.string.failed), Toast.LENGTH_SHORT).show();
             }
         });
@@ -222,7 +246,7 @@ public class SalesInvoiceActivity extends AppCompatActivity implements View.OnCl
 
                 fillList(result);
                 ArrayList<Float> totalList = new ArrayList<Float>();
-                for (SalesModel s : result){
+                for (SalesModel s : result) {
                     totalList.add(s.getTotal());
                 }
                 sumIt(totalList);
@@ -230,14 +254,23 @@ public class SalesInvoiceActivity extends AppCompatActivity implements View.OnCl
 
             @Override
             public void onFailure(Call<ArrayList<SalesModel>> call, Throwable t) {
-                Log.d("asas", "onFailure: " + t.getMessage());
+                new AlertDialog.Builder(getApplicationContext())
+                        .setTitle("Error")
+                        .setMessage("Failed to reach our servers")
+                        .setPositiveButton("retry", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                getDetails(mBinding.spinnerCustomerName.getSelectedItem().toString(), mBinding.spinnerCustomerCode.getSelectedItem().toString());
+                                Toast.makeText(getApplicationContext(), R.string.retrying, Toast.LENGTH_SHORT).show();
+                            }
+                        });
             }
         });
     }
 
     private void sumIt(ArrayList<Float> totalList) {
-        for(int i = 0; i < totalList.size(); i++)
-        {
+        mTotal = 0;
+        for (int i = 0; i < totalList.size(); i++) {
             mTotal += totalList.get(i);
         }
     }

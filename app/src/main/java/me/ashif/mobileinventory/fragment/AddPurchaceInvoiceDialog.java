@@ -136,9 +136,9 @@ public class AddPurchaceInvoiceDialog extends DialogFragment implements TextWatc
         alertDialogBuilder.setView(mBinding.getRoot());
 
         mSupplierList = (ArrayList<String>) getArguments().getSerializable("supplierList");
-        if (mSupplierList.size() != 0) {
-            mBinding.spinnerSupplierName.setAdapter(new ArrayAdapter<>(getContext(), R.layout.spinner, mSupplierList));
-        }
+        //  if (mSupplierList.size() != 0) {
+        mBinding.spinnerSupplierName.setAdapter(new ArrayAdapter<>(getContext(), R.layout.spinner, mSupplierList));
+        //  }
         pDialog.dismiss();
         if (mSupplierList.size() != 0) {
             getItemsForSupplier(mSupplierList.get(0));

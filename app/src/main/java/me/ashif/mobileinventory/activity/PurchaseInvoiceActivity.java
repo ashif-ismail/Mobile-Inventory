@@ -116,7 +116,17 @@ public class PurchaseInvoiceActivity extends AppCompatActivity implements View.O
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 pDialog.dismiss();
-                Toast.makeText(getApplicationContext(), getString(R.string.failed), Toast.LENGTH_SHORT).show();
+                new AlertDialog.Builder(getApplicationContext())
+                        .setTitle("Error")
+                        .setMessage("Failed to reach our servers")
+                        .setPositiveButton("retry", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                getSuppliersList();
+                                Toast.makeText(getApplicationContext(), R.string.retrying, Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .show();
             }
         });
     }
@@ -196,14 +206,26 @@ public class PurchaseInvoiceActivity extends AppCompatActivity implements View.O
                         }
                     }
                 }
-
+                Set<String> hs = new HashSet<>();
+                hs.addAll(codeList);
+                codeList.clear();
+                codeList.addAll(hs);
                 mBinding.spinnerSuppliercodeAc.setAdapter(new ArrayAdapter<>(getApplicationContext(), R.layout.spinner, codeList));
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 pDialog.dismiss();
-                Toast.makeText(getApplicationContext(), getString(R.string.failed), Toast.LENGTH_SHORT).show();
+                new AlertDialog.Builder(getApplicationContext())
+                        .setTitle("Error")
+                        .setMessage("Failed to reach our servers")
+                        .setPositiveButton("retry", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                getSupplierCode(mBinding.spinnerSupplierNameAc.getSelectedItem().toString());
+                                Toast.makeText(getApplicationContext(), R.string.retrying, Toast.LENGTH_SHORT).show();
+                            }
+                        });
             }
         });
     }
@@ -232,12 +254,22 @@ public class PurchaseInvoiceActivity extends AppCompatActivity implements View.O
             @Override
             public void onFailure(Call<ArrayList<PurchaseModel>> call, Throwable t) {
                 pDialog.dismiss();
-                Log.d(TAG, "onFailure: " + t.getMessage());
+                new AlertDialog.Builder(getApplicationContext())
+                        .setTitle("Error")
+                        .setMessage("Failed to reach our servers")
+                        .setPositiveButton("retry", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                getDetails(mBinding.spinnerSupplierNameAc.getSelectedItem().toString(), mBinding.spinnerSuppliercodeAc.getSelectedItem().toString());
+                                Toast.makeText(getApplicationContext(), R.string.retrying, Toast.LENGTH_SHORT).show();
+                            }
+                        });
             }
         });
     }
 
     private void sumIt(ArrayList<Float> totalList) {
+        mTotal = 0;
         for(int i = 0; i < totalList.size(); i++)
         {
             mTotal += totalList.get(i);

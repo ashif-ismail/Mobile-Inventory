@@ -172,6 +172,7 @@ public class EditSalesEntryActivity extends AppCompatActivity implements TextWat
         mBinding.buttonSave.setOnClickListener(this);
         mBinding.textItemq.addTextChangedListener(this);
         mBinding.textUnitprice.addTextChangedListener(this);
+        mBinding.textSuppliercomm.addTextChangedListener(this);
     }
 
     @Override
@@ -187,7 +188,7 @@ public class EditSalesEntryActivity extends AppCompatActivity implements TextWat
     @Override
     public void afterTextChanged(Editable s) {
         if (!mBinding.textUnitprice.getText().toString().isEmpty() &&
-                !mBinding.textItemq.getText().toString().isEmpty() && !mBinding.textItemq.getText().toString().isEmpty()){
+                !mBinding.textItemq.getText().toString().isEmpty() && !mBinding.textSuppliercomm.getText().toString().isEmpty()){
             float comm = Float.valueOf(mBinding.textSuppliercomm.getText().toString()) / 100;
             float totalAmount = Integer.valueOf(mBinding.textItemq.getText().toString())*
                     Integer.valueOf(mBinding.textUnitprice.getText().toString());
@@ -234,6 +235,7 @@ public class EditSalesEntryActivity extends AppCompatActivity implements TextWat
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 pDialog.dismiss();
                 displayToast(getString(R.string.saved));
+                clearFields();
             }
 
             @Override
@@ -245,10 +247,20 @@ public class EditSalesEntryActivity extends AppCompatActivity implements TextWat
 
     }
 
+    private void clearFields() {
+        mBinding.autocompletesuppliercode.setText("");
+        mBinding.textItemname.setText("");
+        mBinding.textItemsuppliername.setText("");
+        mBinding.textSuppliercomm.setText("");
+        mBinding.textItemq.setText("");
+        mBinding.textUnitprice.setText("");
+        mBinding.textTotal.setText("");
+    }
+
     private boolean isValidEntry() {
         if (mBinding.textItemname.getText().toString().isEmpty() || mBinding.textItemsuppliername.getText().toString().isEmpty()
                 || mBinding.textSuppliercomm.getText().toString().isEmpty() || mBinding.textItemq.getText().toString().isEmpty()
-                || mBinding.textUnitprice.getText().toString().isEmpty()) {
+                || mBinding.textUnitprice.getText().toString().isEmpty() || mBinding.autocompletesuppliercode.getText().toString().isEmpty()) {
             return false;
         }
         return true;

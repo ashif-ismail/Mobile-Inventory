@@ -169,12 +169,14 @@ public class EditPurchaseEntryActivity extends AppCompatActivity implements Text
 
     private void setObjects() {
         pDialog = new ProgressDialog(this);
+        pDialog.setCancelable(false);
     }
 
     private void setListeners() {
 
         mBinding.textItemq.addTextChangedListener(this);
         mBinding.textUnitprice.addTextChangedListener(this);
+        mBinding.textSuppliercomm.addTextChangedListener(this);
         mBinding.buttonSave.setOnClickListener(this);
     }
 
@@ -191,7 +193,7 @@ public class EditPurchaseEntryActivity extends AppCompatActivity implements Text
     @Override
     public void afterTextChanged(Editable s) {
         if (!mBinding.textUnitprice.getText().toString().isEmpty() &&
-                !mBinding.textItemq.getText().toString().isEmpty() && !mBinding.textItemq.getText().toString().isEmpty()){
+                !mBinding.textItemq.getText().toString().isEmpty() && !mBinding.textSuppliercomm.getText().toString().isEmpty()){
             float comm = Float.valueOf(mBinding.textSuppliercomm.getText().toString()) / 100;
             float totalAmount = Integer.valueOf(mBinding.textItemq.getText().toString())*
                     Integer.valueOf(mBinding.textUnitprice.getText().toString());
@@ -248,13 +250,23 @@ public class EditPurchaseEntryActivity extends AppCompatActivity implements Text
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 pDialog.dismiss();
                 displayToast(getString(R.string.saved));
+                clearFields();
             }
-
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 pDialog.dismiss();
                 displayToast(getString(R.string.failed));
             }
         });
+    }
+
+    private void clearFields() {
+        mBinding.autocompletesuppliercode.setText("");
+        mBinding.textItemname.setText("");
+        mBinding.textItemsuppliername.setText("");
+        mBinding.textSuppliercomm.setText("");
+        mBinding.textItemq.setText("");
+        mBinding.textUnitprice.setText("");
+        mBinding.textTotal.setText("");
     }
 }

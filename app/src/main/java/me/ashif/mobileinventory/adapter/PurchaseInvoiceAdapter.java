@@ -3,6 +3,7 @@ package me.ashif.mobileinventory.adapter;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -13,11 +14,9 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 
 import me.ashif.mobileinventory.R;
-import me.ashif.mobileinventory.activity.PurchaseInvoiceActivity;
 import me.ashif.mobileinventory.databinding.PurchaseInvoiceItemsBinding;
 import me.ashif.mobileinventory.listener.OnDeleteClicked;
 import me.ashif.mobileinventory.model.PurchaseModel;
-import retrofit2.Callback;
 
 /**
  * Created by Ashif on 11/1/17,January,2017
@@ -36,7 +35,7 @@ public class PurchaseInvoiceAdapter extends RecyclerView.Adapter {
     private OnDeleteClicked mListener;
 
 
-    public PurchaseInvoiceAdapter(Context mContext, ArrayList<PurchaseModel> mPurchaseList, MenuInflater inflater,OnDeleteClicked listener) {
+    public PurchaseInvoiceAdapter(Context mContext, ArrayList<PurchaseModel> mPurchaseList, MenuInflater inflater, OnDeleteClicked listener) {
         this.mContext = mContext;
         this.mPurchaseList = mPurchaseList;
         this.inflater = inflater;
@@ -73,11 +72,12 @@ public class PurchaseInvoiceAdapter extends RecyclerView.Adapter {
             public boolean onActionItemClicked(android.view.ActionMode actionMode, MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
                     case R.id.delete:
-                            mListener.deleteClicked(mPurchaseList.get(position).getId());
-                                mPurchaseList.remove(position);
-                                notifyItemRemoved(position);
-                                notifyDataSetChanged();
-                                actionMode.finish();
+                        Log.d("adapter", "onActionItemClicked: " + mPurchaseList.size());
+                        mListener.deleteClicked(mPurchaseList.get(position).getId());
+                        Log.e("adat", "onActionItemClicked: "+mPurchaseList.get(position).getId() );
+                        mPurchaseList.remove(position);
+                        notifyDataSetChanged();
+                        actionMode.finish();
                 }
                 return false;
             }
@@ -87,23 +87,13 @@ public class PurchaseInvoiceAdapter extends RecyclerView.Adapter {
                 mMode = null;
             }
         };
-
-        mBinding.cardViewThird.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                if (mMode != null)
-                    return false;
-                else
-                    mMode = view.startActionMode(mCallback);
-                return true;
-            }
-        });
     }
 
     @Override
     public int getItemCount() {
         return mPurchaseList.size();
     }
+
     private class PurchasInvoiceViewHolder extends RecyclerView.ViewHolder {
         private PurchaseInvoiceItemsBinding binding;
 
@@ -111,6 +101,18 @@ public class PurchaseInvoiceAdapter extends RecyclerView.Adapter {
         public PurchasInvoiceViewHolder(final PurchaseInvoiceItemsBinding mBinding) {
             super(mBinding.getRoot());
             this.binding = mBinding;
+
+            mBinding.getRoot().setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    if (mMode != null)
+                        return false;
+                    else
+                        mMode = view.startActionMode(mCallback);
+                    return true;
+                }
+            });
+
         }
 
     }

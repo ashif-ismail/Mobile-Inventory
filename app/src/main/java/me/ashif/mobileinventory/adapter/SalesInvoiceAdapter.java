@@ -73,7 +73,6 @@ public class SalesInvoiceAdapter extends RecyclerView.Adapter {
                     case R.id.delete:
                         mListener.deleteClicked(mSalesList.get(position).getId());
                         mSalesList.remove(position);
-                        notifyItemRemoved(position);
                         notifyDataSetChanged();
                         actionMode.finish();
                 }
@@ -85,17 +84,6 @@ public class SalesInvoiceAdapter extends RecyclerView.Adapter {
                 mMode = null;
             }
         };
-
-        mBinding.cardViewThird.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                if (mMode != null)
-                    return false;
-                else
-                    mMode = view.startActionMode(mCallback);
-                return true;
-            }
-        });
     }
 
     @Override
@@ -108,6 +96,17 @@ public class SalesInvoiceAdapter extends RecyclerView.Adapter {
         public SalesInvoiceViewHolder(SalesInvoiceItemsBinding mBinding) {
             super(mBinding.getRoot());
             this.binding = mBinding;
+
+            mBinding.getRoot().setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    if (mMode != null)
+                        return false;
+                    else
+                        mMode = view.startActionMode(mCallback);
+                    return true;
+                }
+            });
         }
     }
 }
