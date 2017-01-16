@@ -1,12 +1,12 @@
 package me.ashif.mobileinventory.activity;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
@@ -116,8 +116,7 @@ public class PurchaseInvoiceActivity extends AppCompatActivity implements View.O
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 pDialog.dismiss();
-                new AlertDialog.Builder(getApplicationContext())
-                        .setTitle("Error")
+                new AlertDialog.Builder(PurchaseInvoiceActivity.this)
                         .setMessage("Failed to reach our servers")
                         .setPositiveButton("retry", new DialogInterface.OnClickListener() {
                             @Override
@@ -216,7 +215,7 @@ public class PurchaseInvoiceActivity extends AppCompatActivity implements View.O
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 pDialog.dismiss();
-                new AlertDialog.Builder(getApplicationContext())
+                new AlertDialog.Builder(PurchaseInvoiceActivity.this)
                         .setTitle("Error")
                         .setMessage("Failed to reach our servers")
                         .setPositiveButton("retry", new DialogInterface.OnClickListener() {
@@ -254,7 +253,7 @@ public class PurchaseInvoiceActivity extends AppCompatActivity implements View.O
             @Override
             public void onFailure(Call<ArrayList<PurchaseModel>> call, Throwable t) {
                 pDialog.dismiss();
-                new AlertDialog.Builder(getApplicationContext())
+                new AlertDialog.Builder(PurchaseInvoiceActivity.this)
                         .setTitle("Error")
                         .setMessage("Failed to reach our servers")
                         .setPositiveButton("retry", new DialogInterface.OnClickListener() {

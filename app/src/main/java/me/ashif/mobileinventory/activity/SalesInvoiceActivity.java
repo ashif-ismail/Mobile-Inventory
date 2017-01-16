@@ -116,7 +116,7 @@ public class SalesInvoiceActivity extends AppCompatActivity implements View.OnCl
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 pDialog.dismiss();
-                new AlertDialog.Builder(getApplicationContext())
+                new AlertDialog.Builder(SalesInvoiceActivity.this)
                         .setTitle("Error")
                         .setMessage("Failed to reach our servers")
                         .setPositiveButton("retry", new DialogInterface.OnClickListener() {
@@ -217,7 +217,7 @@ public class SalesInvoiceActivity extends AppCompatActivity implements View.OnCl
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 pDialog.dismiss();
-                new AlertDialog.Builder(getApplicationContext())
+                new AlertDialog.Builder(SalesInvoiceActivity.this)
                         .setTitle("Error")
                         .setMessage("Failed to reach our servers")
                         .setPositiveButton("retry", new DialogInterface.OnClickListener() {
@@ -254,7 +254,7 @@ public class SalesInvoiceActivity extends AppCompatActivity implements View.OnCl
 
             @Override
             public void onFailure(Call<ArrayList<SalesModel>> call, Throwable t) {
-                new AlertDialog.Builder(getApplicationContext())
+                new AlertDialog.Builder(SalesInvoiceActivity.this)
                         .setTitle("Error")
                         .setMessage("Failed to reach our servers")
                         .setPositiveButton("retry", new DialogInterface.OnClickListener() {
