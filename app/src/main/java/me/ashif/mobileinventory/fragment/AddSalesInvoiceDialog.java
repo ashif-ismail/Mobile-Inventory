@@ -97,6 +97,9 @@ public class AddSalesInvoiceDialog extends DialogFragment implements TextWatcher
         mBinding.spinnerCustomerName.setOnItemSelectedListener(this);
         mBinding.spinnerItemName.setOnItemSelectedListener(this);
 
+        mBinding.textItemprice.addTextChangedListener(this);
+        mBinding.textItemunit.addTextChangedListener(this);
+        mBinding.textItemcommision.addTextChangedListener(this);
 
         String spinnerItemName = "item name";
         String spinnerCustomerName = "supplier name";

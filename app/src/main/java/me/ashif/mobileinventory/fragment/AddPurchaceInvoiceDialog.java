@@ -18,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 import org.apache.commons.io.IOUtils;
 import org.json.JSONArray;
@@ -145,6 +146,7 @@ public class AddPurchaceInvoiceDialog extends DialogFragment implements TextWatc
         }
         mBinding.textItemprice.addTextChangedListener(this);
         mBinding.textItemunit.addTextChangedListener(this);
+        mBinding.textItemcommision.addTextChangedListener(this);
 
         mBinding.spinnerSupplierName.setOnItemSelectedListener(this);
         mBinding.spinnerItemName.setOnItemSelectedListener(this);
@@ -207,6 +209,7 @@ public class AddPurchaceInvoiceDialog extends DialogFragment implements TextWatc
                 pDialog.dismiss();
 //                Toast.makeText(getContext(),getString(R.string.failed),Toast.LENGTH_SHORT).show();
                 Log.d("asas", "onResponse: " + t.getMessage());
+
             }
         });
     }
